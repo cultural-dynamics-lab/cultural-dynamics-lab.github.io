@@ -1,0 +1,1245 @@
+/* ==========================================================================
+   Cultural Dynamics Lab, stylesheet
+   ========================================================================== */
+
+:root {
+  --crimson: #A31F34;
+  --crimson-dark: #7A1626;
+  --ink: #1B1B1B;
+  --ink-soft: #5A5A5A;
+  --paper: #FFFFFF;
+  --paper-alt: #F5F5F5;
+  --line: #DADADA;
+  --gold: #C9A24B;
+  --max-width: 1120px;
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  /* The dark theme names its colours --bg/--fg/--hairline and so on. Giving
+     those same names light values here means one set of structural rules can
+     serve both themes: css/type.css states the shape, and whichever palette
+     is loaded fills in the colour. Without this, borders and rules written
+     against --hairline would resolve to nothing on the light theme. */
+  --bg: #FFFFFF;
+  --bg-raised: #F5F5F5;
+  --bg-sunken: #1B1B1B;
+  --bg-header: #A31F34;
+  --fg: #1B1B1B;
+  --fg-muted: #5A5A5A;
+  --fg-dim: #B0B0B0;
+  --on-fg: #FFFFFF;
+  --on-sunken: #C4C4C4;
+  --accent: #A31F34;
+  --on-accent: #FFFFFF;
+  --label: #A31F34;
+  --hairline: #DADADA;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--crimson-dark);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  color: var(--ink);
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+h1 { font-size: 2.6rem; }
+h2 { font-size: 1.9rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.1rem; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: var(--crimson-dark);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Top bar                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.top-bar {
+  background: var(--ink);
+  color: #C4C4C4;
+  font-size: 0.8rem;
+}
+
+.top-bar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.top-bar a {
+  color: #C4C4C4;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Site header / flexible nav                                             */
+/* ---------------------------------------------------------------------- */
+
+.site-header {
+  background: var(--paper);
+  border-bottom: 3px solid var(--crimson);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+  color: #fff;
+  font-family: var(--serif);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-text .name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.brand-text .tagline {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+}
+
+.nav-toggle {
+  display: none;
+  border: 1px solid var(--line);
+  background: var(--paper-alt);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  margin: 4px 0;
+}
+
+/* the flexible tab-style nav: wraps freely, no fixed widths, grows/shrinks
+   with viewport and with the number of links */
+.site-nav {
+  display: flex;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.site-nav a:hover {
+  background: var(--paper-alt);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav a.active {
+  background: var(--crimson);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.hero {
+  background: linear-gradient(160deg, var(--paper-alt) 0%, var(--paper) 60%);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero .container {
+  padding-top: 4.5rem;
+  padding-bottom: 4rem;
+}
+
+.hero-main {
+  max-width: 640px;
+}
+
+.hero h1 {
+  margin-bottom: 1rem;
+}
+
+.hero p.lead {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+}
+
+.hero-banner {
+  height: 280px;
+  background: linear-gradient(120deg, #2c2620 0%, var(--crimson-dark) 55%, var(--crimson) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 30%, rgba(255,255,255,0.08) 0, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.10) 0, transparent 40%);
+}
+
+.page-header {
+  padding: 3rem 0 2.25rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-alt);
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem;
+}
+
+.page-header p {
+  color: var(--ink-soft);
+  max-width: 700px;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Sections                                                                */
+/* ---------------------------------------------------------------------- */
+
+section {
+  padding: 3rem 0;
+}
+
+section + section {
+  border-top: 1px solid var(--line);
+}
+
+.section-heading {
+  margin-bottom: 1.75rem;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+@media (max-width: 800px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Cards                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+/* Home page layout: main content next to a news sidebar */
+.home-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.home-sidebar .section-heading h2 {
+  font-size: 1.5rem;
+}
+
+.news-sidebar {
+  max-height: 460px;
+  overflow-y: auto;
+  position: sticky;
+  top: 90px;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.news-item {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.news-date {
+  font-family: var(--serif);
+  color: var(--crimson-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 560px) {
+  .news-item {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+/* the sidebar is narrow, so always stack date above text there */
+.home-sidebar .news-item {
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 800px) {
+  .pillars { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .pillars { grid-template-columns: 1fr; }
+}
+
+.pillar {
+  border-top: 3px solid var(--crimson);
+  padding-top: 0.9rem;
+}
+
+.pillar h3 {
+  margin: 0 0 0.4rem;
+}
+
+.pillar p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* People                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.pi-card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .pi-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: linear-gradient(150deg, var(--paper-alt), var(--line));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--crimson-dark);
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  border: 1px solid var(--line);
+}
+
+.avatar.small {
+  aspect-ratio: 1 / 1;
+  font-size: 1.5rem;
+  border-radius: 8px;
+}
+
+.pi-links {
+  margin: 0.75rem 0 1rem;
+  font-size: 0.92rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  color: var(--ink-soft);
+}
+
+.hometown-section .section-heading {
+  margin-bottom: 1.25rem;
+}
+
+.map-intro {
+  max-width: 760px;
+  color: var(--ink-soft);
+  margin: 0.35rem 0 0;
+}
+
+.hometown-explorer {
+  padding: 1rem;
+}
+
+.hometown-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(250px, 0.8fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.map-canvas {
+  position: relative;
+  min-height: 340px;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #faf9f5 0%, var(--paper-alt) 100%);
+}
+
+.world-silhouette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-graticule {
+  fill: none;
+  stroke: rgba(122, 22, 38, 0.09);
+  stroke-width: 1;
+}
+
+.map-land {
+  fill: #E4E4E4;
+  stroke: #C9C9C9;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.map-marker {
+  --marker-color: var(--crimson);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.map-dot {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--marker-color);
+  box-shadow: 0 1px 0 rgba(27, 27, 27, 0.18);
+  font-family: var(--sans);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.map-marker.marker-director {
+  --marker-color: var(--gold);
+}
+
+.map-marker.marker-affiliate {
+  --marker-color: #5d625e;
+}
+
+.map-marker:hover .map-dot,
+.map-marker.active .map-dot {
+  transform: scale(1.18);
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.35), 0 2px 4px rgba(27, 27, 27, 0.22);
+}
+
+.map-marker:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.map-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-left: 3px solid var(--crimson);
+  border-radius: 0 8px 8px 0;
+  background: var(--paper-alt);
+}
+
+.map-member-detail h3 {
+  margin: 0.15rem 0;
+}
+
+.map-detail-label {
+  margin: 0;
+  font-size: 0.68rem;
+}
+
+.map-member-role {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.map-member-location {
+  margin: 1rem 0 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+
+.map-member-location strong {
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.map-roster-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.map-member-picker {
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.map-member-picker label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.map-member-picker select {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #C0C0C0;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+}
+
+.map-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+  background: var(--crimson);
+  box-shadow: 0 0 0 1px rgba(27, 27, 27, 0.15);
+}
+
+.legend-director { background: var(--gold); }
+.legend-affiliate { background: #5d625e; }
+
+.map-placeholder-note {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.map-location-list {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+
+.map-location-list summary {
+  cursor: pointer;
+  color: var(--crimson-dark);
+  font-weight: 600;
+}
+
+.map-location-list ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.map-location-list strong {
+  color: var(--ink);
+}
+
+.pi-card[id],
+.roster-card[id] {
+  scroll-margin-top: 7rem;
+}
+
+.pi-card[id]:target,
+.roster-card[id]:target {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.26);
+}
+
+@media (max-width: 800px) {
+  .hometown-map-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-sidebar {
+    border-top: 3px solid var(--crimson);
+    border-left: 0;
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hometown-explorer {
+    padding: 0.7rem;
+  }
+
+  .map-canvas {
+    min-height: 220px;
+  }
+
+  .map-sidebar {
+    padding: 1rem;
+  }
+
+  .map-location-list ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-dot {
+    transition: none;
+  }
+}
+
+.roster-group {
+  margin-bottom: 2.25rem;
+}
+
+.roster-group h3 {
+  border-bottom: 2px solid var(--crimson);
+  display: inline-block;
+  padding-bottom: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.roster-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.9rem;
+  background: #fff;
+}
+
+.rcard-head {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.roster-card .info {
+  min-width: 0;
+}
+
+.roster-card .info .rname {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.roster-card .info .rrole {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.roster-card .rbio {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.roster-card .rlinks {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.alumni-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.6rem 1.5rem;
+}
+
+.alumni-list li {
+  list-style: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 0.93rem;
+}
+
+.alumni-list .aname {
+  font-weight: 600;
+}
+
+.alumni-list .anow {
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Research sidebar + tabs (flexible)                                     */
+/* ---------------------------------------------------------------------- */
+
+.research-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .research-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* the flexible theme nav: a vertical sidebar on wide screens that becomes a
+   wrapping horizontal row above the content on narrow screens, so the list
+   of themes stays usable at any length or width */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  position: sticky;
+  top: 110px;
+  margin-top: 2rem;
+  counter-reset: themenum;
+}
+
+@media (max-width: 800px) {
+  .tabs {
+    flex-direction: row;
+    position: static;
+    margin-top: 0;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.theme-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 800px) {
+  .theme-label {
+    display: none;
+  }
+}
+
+.tab-btn {
+  counter-increment: themenum;
+  flex: 1 1 auto;
+  min-width: 160px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-left: 3px solid var(--line);
+  border-radius: 0;
+  padding: 0.6rem 0 0.6rem 1rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn::before {
+  content: counter(themenum, decimal-leading-zero);
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--line);
+  margin-bottom: 0.15rem;
+}
+
+.tab-btn:hover {
+  border-left-color: var(--crimson);
+  color: var(--ink);
+  background: var(--paper-alt);
+}
+
+.tab-btn.active {
+  border-left-color: var(--crimson);
+  color: var(--crimson-dark);
+  background: var(--paper-alt);
+}
+
+.tab-btn.active::before {
+  color: var(--crimson);
+}
+
+@media (max-width: 800px) {
+  .tab-btn {
+    border-left: none;
+    border-bottom: 3px solid var(--line);
+    padding: 0.6rem 0.75rem;
+  }
+
+  .tab-btn::before {
+    display: inline;
+    margin-right: 0.4rem;
+    margin-bottom: 0;
+  }
+
+  .tab-btn.active {
+    border-left: none;
+    border-bottom-color: var(--crimson);
+  }
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: var(--crimson);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+}
+
+.publication-list {
+  margin: 0;
+}
+
+.publication-list p {
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+
+.publication-list p:last-child {
+  margin-bottom: 0;
+}
+
+.publication-list em {
+  font-style: italic;
+}
+
+.links-box {
+  margin-top: 2.5rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Publication status                                                      */
+/* ---------------------------------------------------------------------- */
+
+/* Marks a manuscript that is not published yet, inside an ordinary
+   publication list. Reads as an annotation, not as part of the citation. */
+.pub-status {
+  display: inline-block;
+  margin-left: 0.15rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pub-status em {
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Contact                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 800px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+.contact-block {
+  padding: 1.25rem 1.5rem;
+  background: var(--paper-alt);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  margin-bottom: 1.25rem;
+}
+
+.contact-block h3 {
+  margin-top: 0;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--crimson);
+  color: #fff;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.btn:hover {
+  background: var(--crimson-dark);
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Footer                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.site-footer {
+  background: var(--ink);
+  color: #C9C9C9;
+  margin-top: 2rem;
+}
+
+.site-footer .container {
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.site-footer a {
+  color: #EFEFEF;
+}
+
+.site-footer .foot-links {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive nav collapse                                                */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .site-nav {
+    display: none;
+    width: 100%;
+    order: 3;
+  }
+
+  .site-nav.open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+  }
+
+  .site-nav a {
+    width: 100%;
+    border-radius: 6px;
+  }
+}
+
+/* ==========================================================================
+   Person pages (people/<name>.html)
+   Photo on the left, bio on the right, collapsing to one column on narrow
+   screens. Colours come from tokens so dark.css carries over unchanged.
+   ========================================================================== */
+
+.person-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.person-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--paper-alt), var(--line));
+}
+
+.person-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stands in for a headshot we do not have yet, matching the roster avatars. */
+.person-photo.is-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--crimson-dark);
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.person-body h1 { margin: 0.2rem 0 0.35rem; }
+
+.person-role {
+  margin: 0 0 1.5rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.person-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 1.75rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+
+.person-back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 760px) {
+  .person-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .person-photo {
+    max-width: 240px;
+  }
+}
+
+/* ==========================================================================
+   Light theme banner
+
+   When the globe switches the site to the crimson theme, the header becomes a
+   solid Harvard crimson band and everything on it inverts to white. White on
+   #A31F34 is 7.49:1. The home page carries the same rules in its own block,
+   because it does not load this file's dark counterpart.
+   ========================================================================== */
+
+.theme-crimson .site-header {
+  background: #A31F34;
+  border-bottom-color: #A31F34;
+}
+
+.theme-crimson .brand-mark { color: #FFFFFF; }
+.theme-crimson .brand-text .name { color: #FFFFFF; }
+.theme-crimson .brand-text .tagline { color: rgba(255, 255, 255, 0.75); }
+.theme-crimson .site-nav a { color: rgba(255, 255, 255, 0.8); }
+
+.theme-crimson .site-nav a:hover,
+.theme-crimson .site-nav a.active {
+  background: none;
+  color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+}
+
+.theme-crimson .nav-toggle span { background: #FFFFFF; }

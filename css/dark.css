@@ -1,0 +1,415 @@
+/* ==========================================================================
+   Dark theme, shared by People, Research and Contact.
+
+   Loaded after css/style.css (and after each page's own <style>), so it wins
+   on equal specificity. It only repaints: no layout or content is changed.
+   The home page carries the same palette in its own inline block, because it
+   also holds the hero, the fold tiles and the marionette.
+   ========================================================================== */
+
+:root {
+  --bg: #1C1C1C;
+  --bg-raised: #272727;
+  --bg-sunken: #121212;
+  --bg-header: rgba(28, 28, 28, 0.92);
+  --fg: #FFFFFF;
+  --fg-muted: #B5B5B5;
+  --fg-dim: #8C8C8C;
+  --on-fg: #1C1C1C;
+  --on-sunken: #B5B5B5;
+  --accent: #FFFFFF;
+  --on-accent: #1C1C1C;
+  --label: #B5B5B5;
+  --hairline: #3F3F3F;
+
+  /* Several elements carry inline styles that reach for css/style.css's own
+     tokens. Remapping them here repaints those too, which a class override
+     could never do. */
+  --ink: #FFFFFF;
+  --ink-soft: #B5B5B5;
+  --paper: #1C1C1C;
+  --paper-alt: #272727;
+  --line: #3F3F3F;
+  --crimson: #FFFFFF;
+  --crimson-dark: #FFFFFF;
+  --gold: #FFFFFF;
+}
+
+/* ---- Shell ------------------------------------------------------------- */
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+h1, h2, h3, h4 {
+  color: var(--fg);
+}
+
+a {
+  color: var(--accent);
+}
+a:hover {
+  color: var(--fg);
+}
+
+.eyebrow {
+  color: var(--label);
+}
+
+.eyebrow::after {
+  background: var(--hairline);
+}
+
+.top-bar {
+  background: var(--bg-sunken);
+  color: var(--on-sunken);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.top-bar a {
+  color: var(--on-sunken);
+}
+.top-bar a:hover {
+  color: #FFFFFF;
+}
+
+.site-header {
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.brand-mark {
+  background: none;
+  color: var(--accent);
+}
+
+.brand-text .name {
+  color: var(--fg);
+}
+
+.brand-text .tagline {
+  color: var(--fg-muted);
+}
+
+.site-nav a {
+  border-bottom: 2px solid transparent;
+  color: var(--fg-muted);
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  background: none;
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}
+
+.nav-toggle {
+  background: var(--bg-raised);
+  border-color: var(--hairline);
+}
+.nav-toggle span {
+  background: var(--fg);
+}
+
+.page-header {
+  background: var(--bg-sunken);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.page-header p {
+  color: var(--fg-muted);
+}
+
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.site-footer {
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--hairline);
+  color: var(--on-sunken);
+}
+
+.site-footer strong {
+  color: #FFFFFF;
+}
+.site-footer a {
+  color: var(--on-sunken);
+}
+.site-footer a:hover {
+  color: #FFFFFF;
+}
+
+/* ---- People ------------------------------------------------------------ */
+
+.pi-card,
+.roster-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+}
+
+.pi-card p,
+.roster-card .rbio {
+  color: var(--fg-muted);
+}
+.pi-card p[style] {
+  color: var(--fg-muted) !important;
+}
+
+.avatar {
+  background: linear-gradient(150deg, #303030, #454545);
+  border: 1px solid var(--hairline);
+  color: var(--fg);
+}
+
+.pi-links {
+  color: var(--fg-muted);
+}
+.roster-card .info .rname {
+  color: var(--fg);
+}
+.roster-card .info .rrole {
+  color: var(--fg-muted);
+}
+.roster-card .rlinks a {
+  color: var(--accent);
+}
+
+.pi-card[id]:target,
+.roster-card[id]:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+
+.alumni-list li {
+  border-bottom: 1px dashed var(--hairline);
+}
+.alumni-list .aname {
+  color: var(--fg);
+}
+.alumni-list .anow {
+  color: var(--fg-muted);
+}
+.alumni-list li[id]:target {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.lab-photo {
+  border-color: var(--hairline);
+}
+
+.lab-photo-placeholder {
+  background: linear-gradient(150deg, #292929, #3A3A3A);
+  color: var(--fg);
+}
+.lab-photo-placeholder span,
+.lab-photo-caption {
+  color: var(--fg-muted);
+}
+
+/* the hometown map */
+.hm-section {
+  background: var(--bg);
+  border-color: var(--hairline);
+}
+.hm-intro {
+  color: var(--fg-muted);
+}
+.hm-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+}
+/* No sea: the land floats as white shapes on the page itself. The graticule
+   sits under the land group in the markup, so it only ever shows in the empty
+   water, and is kept faint enough to read as grid rather than as coastline. */
+.hm-canvas {
+  background: transparent;
+  border-color: var(--hairline);
+}
+.hm-ocean {
+  fill: transparent;
+}
+.hm-graticule {
+  stroke: rgba(255, 255, 255, 0.09);
+}
+.hm-land path {
+  fill: #FFFFFF;
+  stroke: #9A9A9A;
+}
+.hm-borders {
+  stroke: #9A9A9A;
+}
+
+/* Harvard crimson points. The white ring is what keeps them legible both on
+   white land and out over the empty water; selecting one inverts it. */
+.hm-marker::before {
+  background: #A31F34;
+  border-color: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.hm-marker.is-active::before {
+  background: #FFFFFF;
+  border-color: #A31F34;
+}
+.hm-marker::after {
+  background: #000000;
+  color: #FFFFFF;
+}
+.hm-marker:focus-visible {
+  outline-color: var(--accent);
+}
+
+
+.hm-detail {
+  background: var(--bg);
+  border: 1px solid var(--hairline);
+}
+.hm-detail-role, .hm-detail-now, .hm-detail-place span, .hm-detail-now span {
+  color: var(--fg-muted);
+}
+.hm-detail-link {
+  color: var(--accent);
+}
+.hm-picker label {
+  color: var(--fg-muted);
+}
+.hm-picker select {
+  background: var(--bg-raised);
+  color: var(--fg);
+  border-color: var(--hairline);
+}
+.hm-noscript {
+  color: var(--fg-muted);
+}
+
+/* ---- Research ---------------------------------------------------------- */
+
+.theme-label {
+  color: var(--label);
+}
+
+.tab-btn {
+  color: var(--fg-muted);
+  border-left: 3px solid var(--hairline);
+  background: transparent;
+}
+
+.tab-btn::before {
+  color: var(--fg-dim);
+}
+.tab-btn:hover {
+  color: var(--fg);
+  background: var(--bg-raised);
+  border-left-color: var(--accent);
+}
+.tab-btn.active {
+  color: var(--fg);
+  background: var(--bg-raised);
+  border-left-color: var(--accent);
+}
+.tab-btn.active::before {
+  color: var(--fg);
+}
+
+.tab-panel p {
+  color: var(--fg-muted);
+}
+/* Harvard crimson links. #A31F34 itself only reaches 2.27:1 on this ground,
+   so this keeps the hue and lifts it to 3.46:1 -- the same value the news
+   links on the home page use, so there is one link colour across the site.
+   The underline stays, so a link is never marked by colour alone. */
+.tab-panel p a,
+.links-box p a {
+  color: #D62944;
+  border-bottom: 1px solid rgba(214, 41, 68, 0.5);
+}
+
+.tab-panel p a:hover,
+.links-box p a:hover {
+  color: #E8556C;
+  border-bottom-color: #E8556C;
+}
+
+/* Harvard crimson tags. Crimson text on the page ground only reaches 2.27:1,
+   which is below what 0.75rem uppercase needs, so the crimson goes behind the
+   text instead: white on #A31F34 is 7.49:1, and it matches the filled pill the
+   light theme uses. */
+.tag {
+  color: #FFFFFF;
+  background: #A31F34;
+  border: 1px solid #A31F34;
+}
+
+.publication-list p {
+  color: var(--fg-muted);
+}
+.publication-list em {
+  color: var(--fg);
+}
+
+/* ---- Contact ----------------------------------------------------------- */
+
+.contact-block {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+}
+
+.contact-block p {
+  color: var(--fg-muted);
+}
+.contact-block strong {
+  color: var(--fg);
+}
+
+.course-code {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--fg);
+}
+.course-meta {
+  color: var(--fg-muted);
+}
+
+/* ---- Responsive -------------------------------------------------------- */
+
+/* Person pages and the trimmed roster cards */
+.roster-card .info .rmail a {
+  color: var(--fg-muted);
+}
+.roster-card .info .rmail a:hover {
+  color: var(--fg);
+}
+.person-role {
+  color: var(--fg-muted);
+}
+.person-back {
+  color: var(--fg-muted);
+}
+.person-links a {
+  color: var(--accent);
+}
+
+/* Bio text on the detailed roster rows */
+.is-detailed .rbio { color: var(--fg-muted); }
+
+/* Links row on a detailed roster row is set like the email line above it.
+   This must come after .roster-card .rlinks a, which is equally specific. */
+.is-detailed .rlinks a { color: var(--fg-muted); }
+.is-detailed .rlinks a:hover { color: var(--fg); }
+
+/* Upcoming openings on the contact page */
+.openings-label { color: var(--label); }
+.openings li { color: var(--fg-muted); }
+.openings strong { color: var(--fg); }

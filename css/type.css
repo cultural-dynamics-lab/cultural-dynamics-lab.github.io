@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Typography and shape, shared by every theme.
+
+   These rules used to live in css/dark.css. Clicking the globe switches to the
+   crimson theme by disabling that file, which also took the display face, the
+   letter-spacing and the squared corners with it. Keeping them here means the
+   two themes differ only in colour. dark.css now holds the palette alone.
+   ========================================================================== */
+
+:root {
+  --display: "Oswald", "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 4.6vw, 3.2rem);
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1.05rem;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+section {
+  padding: 4.5rem 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+}
+
+.top-bar {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-header {
+  backdrop-filter: blur(14px) saturate(120%);
+}
+
+.brand-mark {
+  border-radius: 0;
+  font-family: var(--display);
+  font-weight: 600;
+}
+
+.brand-text .name {
+  font-family: var(--display);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.brand-text .tagline {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+}
+
+.site-nav a {
+  padding: 0.35rem 0;
+  margin-left: 2rem;
+  border-radius: 0;
+  font-family: var(--display);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.page-header {
+  padding: 3.5rem 0 2.75rem;
+}
+
+.card {
+  border-radius: 0;
+}
+
+.btn {
+  border-radius: 0;
+  padding: 0.85rem 1.6rem;
+  font-family: var(--display);
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-footer {
+  margin-top: 0;
+}
+
+.site-footer .foot-links {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pi-card,
+.roster-card {
+  border-radius: 0;
+}
+
+.avatar {
+  border-radius: 0;
+  font-family: var(--display);
+  font-weight: 500;
+}
+
+.roster-card .info .rname {
+  font-weight: 600;
+}
+
+.lab-photo {
+  border-radius: 0;
+}
+
+.lab-photo-placeholder strong {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hm-card {
+  border-radius: 0;
+}
+
+.hm-canvas {
+  border-radius: 0;
+}
+
+.hm-detail {
+  border-radius: 0;
+}
+
+.hm-detail h3 {
+  font-size: 1.15rem;
+}
+
+.hm-detail-place strong {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hm-picker select {
+  border-radius: 0;
+}
+
+.theme-label {
+  font-family: var(--display);
+  letter-spacing: 0.22em;
+}
+
+.tab-btn {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tag {
+  border-radius: 0;
+  font-family: var(--display);
+  font-weight: 400;
+}
+
+.publication-list p {
+  font-size: 0.95rem;
+}
+
+.publication-list em {
+  font-style: italic;
+}
+
+.contact-block {
+  border-radius: 0;
+}
+
+.course-code {
+  border-radius: 0;
+  font-family: var(--display);
+}
+
+.course-title {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* These two belong to the narrow-screen layout. They were lifted out of
+   their media query when this file was split off, which cancelled the nav
+   spacing at every width. */
+@media (max-width: 800px) {
+  .site-nav a {
+    margin-left: 0;
+  }
+
+  section {
+    padding: 3rem 0;
+  }
+}
+
+/* ---- Form that the two palettes must not disagree on -------------------
+   These carry a colour, but only through a token that both palettes define,
+   so the shape is fixed here and each theme supplies its own value. Without
+   them the light palette reverts to its own idea of these parts: a rounded
+   gradient logo, a 3px crimson rule under the header, and a filled pill for
+   the current nav link instead of an underline.
+   ------------------------------------------------------------------------ */
+
+.top-bar,
+.site-header {
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* The mark is the same wireframe globe as the hero, held still, with the
+   initials over it. No fill: the globe reads as line work, so a solid block
+   behind it would just fight the strokes. */
+.brand-mark {
+  position: relative;
+  width: 56px;              /* room for the globe, which overflows this box */
+  height: 40px;
+  border-radius: 0;
+  background: none;
+  color: var(--accent);
+}
+
+/* The hero globe, held still, sitting behind the initials. */
+.brand-globe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  opacity: 0.5;
+}
+
+.brand-mark-text {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-nav a {
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  background: none;
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}

@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+._*
+
+# Office lock files
+~$*
+
+# Internal documents -- NOT for publication.
+# Lab Topics.docx lists manuscripts under review and in preparation; anything
+# committed here becomes publicly downloadable, including from deleted commits.
+feedback/
+
+# Photo originals and the bio files people submitted. The site only ever loads
+# the resized copies in the web/ subfolders, so the originals stay on the Mac:
+# they are ~54 MB, they are not public material, and some carry camera metadata.
+images/people/*/
+!images/people/web/
+images/lab photos/*
+!images/lab photos/web/

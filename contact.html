@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Cultural Dynamics Lab</title>
+<meta name="description" content="Get in touch with the Cultural Dynamics Lab, including information for prospective PhD applicants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Course listing in the Undergraduates block */
+  .course-code {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: rgba(163, 31, 52, 0.09);
+    color: var(--crimson-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+  }
+
+  .course-title {
+    margin: 0.5rem 0 0.3rem;
+    font-size: 1.12rem;
+  }
+
+  .course-meta {
+    margin: 0 0 0.9rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  /* Upcoming openings, under the postdocs and research assistants block */
+  .openings-label {
+    margin: 1.25rem 0 0.5rem;
+    font-family: var(--display);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--label);
+  }
+
+  .openings {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .openings li {
+    margin-bottom: 0.45rem;
+    color: var(--ink-soft);
+  }
+
+  .openings li:last-child { margin-bottom: 0; }
+  .openings strong { color: var(--ink); }
+</style>
+<link rel="stylesheet" href="css/type.css">
+<link rel="stylesheet" id="theme-dark" href="css/dark.css">
+<script>
+  /* The globe on the home page sets this. Applied here before first paint so a
+     page never flashes one theme and then repaints to the other. */
+  try {
+    if (localStorage.getItem("cdl-theme") === "crimson") {
+      document.documentElement.classList.add("theme-crimson");
+      var d = document.getElementById("theme-dark");
+      if (d) { d.disabled = true; }
+    }
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <span>Department of Psychology, Harvard University</span>
+    <span><a href="contact.html">Join the lab</a></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" style="text-decoration:none;">
+      <span class="brand-mark">
+        <svg class="brand-globe" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+          <g transform="rotate(-16 20 20)" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="20" cy="20" r="18"/>
+            <ellipse cx="20" cy="20" rx="11" ry="18"/>
+            <ellipse cx="20" cy="20" rx="4" ry="18"/>
+            <ellipse cx="20" cy="20" rx="18" ry="6"/>
+          </g>
+        </svg>
+        <span class="brand-mark-text">CDL</span>
+      </span>
+      <span class="brand-text">
+        <span class="name">Cultural Dynamics Lab</span>
+        <span class="tagline">Psychology &amp; cultural evolution</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="people.html">People</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <p class="eyebrow">Contact</p>
+    <h1>Join the lab</h1>
+    <p>Josh is always eager to mentor students who are interested in how cultural and historical
+    factors influence the human mind.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container contact-grid">
+    <div>
+      <div class="contact-block">
+        <h3>PhD applicants</h3>
+        <!-- Added August 2026, for the cycle with applications due December 2026.
+             Revisit each admissions cycle: bump the year, or remove the notice when
+             Josh is recruiting again. -->
+        <p style="margin-top:0;padding-left:0.9rem;border-left:3px solid var(--crimson);">
+          <strong>Josh is not accepting new PhD students for fall 2027 entry.</strong>
+        </p>
+        <p>
+          In years when he is recruiting, Josh accepts PhD students through Harvard
+          University&rsquo;s Psychology PhD program.
+          Interested students should apply and list him as their supervisor. See the program page for
+          full details on admissions and requirements.
+        </p>
+        <p><a class="btn" href="https://grad.psychology.fas.harvard.edu/program" target="_blank" rel="noopener">Harvard Psychology PhD program</a></p>
+      </div>
+
+      <div class="contact-block">
+        <h3>Postdocs, research assistants, and visitors</h3>
+        <p>
+          The lab regularly welcomes postdoctoral researchers, full-time research assistants, and
+          visiting affiliates. All future openings will be posted on this website.
+        </p>
+        <p class="openings-label">Openings we expect to advertise</p>
+        <ul class="openings">
+          <li><strong>Postdoctoral fellow.</strong> We expect to advertise this position in December 2026.</li>
+          <li><strong>Lab manager.</strong> We expect to advertise this position in January or February 2027.</li>
+        </ul>
+      </div>
+
+      <div class="contact-block">
+        <h3>Undergraduates</h3>
+        <!-- Course listing for 2026 Fall. Update the term, section, and class number
+             each time the course runs. -->
+        <p style="margin:0;"><span class="course-code">PSY 2650R</span></p>
+        <h4 class="course-title">Laboratory Research on Culture, Technology, and the Mind</h4>
+        <p class="course-meta">2026 Fall &middot; Full term &middot; Section 001 &middot; Class number 16747</p>
+        <p style="margin-bottom:0;">
+          Undergraduates join the lab through this course, working as research assistants for
+          course credit. Each student pairs with a graduate student or postdoctoral fellow on an
+          original question about how culture, technology, and the mind shape one another, using
+          methods such as experiments, cross-cultural surveys, natural language processing,
+          archival data, or computer simulations. Weekly lab meetings follow an idea from first
+          sketch through to publication.
+        </p>
+      </div>
+
+      <div class="contact-block">
+        <h3>Senior honors theses</h3>
+        <p>
+          Harvard undergraduates hoping to write a senior thesis with the lab should tell us by
+          January 15 of their junior year. Places are limited. Most years bring more requests than
+          the lab can advise, so we are not able to say yes to everyone.
+        </p>
+        <p>
+          Preference goes to students already working in the lab as research assistants. If you
+          have not worked with us before, it is worth arranging a conversation with Joshua Conrad
+          Jackson well ahead of the deadline; that meeting carries real weight in the decision.
+        </p>
+        <p style="margin-bottom:0;">
+          There is no formal application and nothing to prepare in advance. Email
+          <a href="mailto:jcjackson@fas.harvard.edu">Joshua</a> directly and describe what you
+          would like to study.
+        </p>
+      </div>
+    </div>
+
+    <aside>
+      <div class="card" style="margin-bottom:1.25rem;">
+        <h3>Contact information</h3>
+        <p style="margin-bottom:0.5rem;">
+          <strong>Joshua Conrad Jackson</strong><br>
+          Assistant Professor of Psychology
+        </p>
+        <p style="margin-bottom:0.5rem;">
+          <a href="https://psychology.fas.harvard.edu/people/joshua-conrad-jackson" target="_blank" rel="noopener">Harvard faculty profile</a><br>
+          <a href="https://www.joshuaconradjackson.com/" target="_blank" rel="noopener">Personal website</a>
+        </p>
+        <p style="margin-bottom:0;">
+          <a href="mailto:jcjackson@fas.harvard.edu">jcjackson@fas.harvard.edu</a>
+        </p>
+
+        <hr style="margin:1.25rem 0;border:0;border-top:1px solid var(--line);">
+
+        <p style="margin-bottom:0.35rem;">
+          <strong>Hanying Yao</strong><br>
+          Lab Manager
+        </p>
+        <p style="margin-bottom:0.9rem;">
+          <a href="mailto:hanyingyao@fas.harvard.edu">hanyingyao@fas.harvard.edu</a>
+        </p>
+        <p style="margin-bottom:0.35rem;">
+          <strong>Shirley (Xueyan) Zhang</strong><br>
+          Lab Manager
+        </p>
+        <p style="margin-bottom:0.35rem;">
+          <a href="mailto:shirley_zhang@fas.harvard.edu">shirley_zhang@fas.harvard.edu</a>
+        </p>
+        <!-- One note for both lab managers, so it is not read as applying to
+             only the last one listed. -->
+        <p style="margin:0;color:var(--ink-soft);font-size:0.88rem;">
+          For questions about getting involved or volunteering in the lab, write to either of them.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Department address</h3>
+        <p style="margin-bottom:0.5rem;">
+          Department of Psychology<br>
+          William James Hall<br>
+          33 Kirkland Street<br>
+          Cambridge, MA 02138
+        </p>
+        <p style="margin:0;">
+          <a href="tel:+16174953800">617 495 3800</a>
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <strong>Cultural Dynamics Lab</strong><br>
+      Department of Psychology, Harvard University<br>
+      William James Hall, 33 Kirkland Street, Cambridge, MA 02138
+    </div>
+    <div class="foot-links">
+      <a href="people.html">People</a>
+      <a href="research.html">Research</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

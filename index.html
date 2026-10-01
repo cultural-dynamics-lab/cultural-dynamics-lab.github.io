@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cultural Dynamics Lab</title>
+<meta name="description" content="The Cultural Dynamics Lab studies how psychological change and societal change shape each other, directed by Joshua Conrad Jackson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* ======================================================================
+     Home page theme, modelled on deepestbeliefslab.com.
+     Borrowed from that site: the #0f0606 ground, the #ff1e0a / #cf021a reds,
+     Oswald for headings, the 1px #2c2c2c tile grid, the right-aligned
+     uppercase tile headings with a chevron, and the hinge-fold hover where
+     the front face tilts back 50deg while the back face rotates in.
+     Page-scoped, so css/style.css and the other pages are untouched.
+     ====================================================================== */
+
+  /* Palette sampled from sharifflab.com: monochrome, no chromatic accent.
+     #111 grounds the dark sections, #fff the light ones, with grey for
+     everything secondary. Contrast does the work colour usually would. */
+  /* Monochrome ground, as the page loads. */
+  :root {
+    --bg: #1C1C1C;
+    --bg-raised: #272727;
+    --bg-sunken: #121212;
+    --bg-header: rgba(28, 28, 28, 0.92);
+    --fg: #FFFFFF;
+    --fg-muted: #B5B5B5;
+    --fg-dim: #8C8C8C;
+    --on-fg: #1C1C1C;          /* text laid on a --fg coloured surface */
+    --on-sunken: #B5B5B5;      /* text laid on the darker bands */
+    --accent: #FFFFFF;         /* nothing chromatic here: contrast is the accent */
+    --on-accent: #1C1C1C;
+    --label: #B5B5B5;
+    --hairline: #3F3F3F;
+    --hairline-light: #E2E2E2;
+    --glow: rgba(255, 255, 255, 0.13);
+    --glow-soft: rgba(255, 255, 255, 0.06);
+    --grid-line: rgba(255, 255, 255, 0.06);
+    --gl-fill: rgba(255, 255, 255, 0.035);
+    --gl-line: rgba(255, 255, 255, 0.34);
+    --gl-rim: rgba(255, 255, 255, 0.62);
+    --gl-axis: rgba(255, 255, 255, 0.16);
+    --gl-accent: #9E2438;      /* Harvard crimson, held back to a hairline */
+    --gl-accent-lit: #C2334A;   /* the travelling point, one step brighter */
+    --display: "Oswald", "Inter", sans-serif;
+  }
+
+  /* Clicking the globe repaints the page: paper ground, ink text, Harvard
+     crimson doing the accent work rather than flooding the surface. Clicking
+     it again returns the page to monochrome. */
+  .theme-crimson {
+    --bg: #FFFFFF;
+    /* The page itself is white now, so a raised surface has to go the other
+       way: a card that was also #FFFFFF would read as a bare border. */
+    --bg-raised: #F5F5F5;
+    --bg-sunken: #1B1B1B;      /* the bands top and bottom stay dark */
+    --bg-header: #A31F34;      /* the banner is a solid crimson band */
+    --fg: #1B1B1B;
+    --fg-muted: #5A5A5A;
+    --fg-dim: #B0B0B0;
+    --on-fg: #FFFFFF;
+    --on-sunken: #C4C4C4;
+    --accent: #A31F34;
+    --on-accent: #FFFFFF;
+    --label: #A31F34;
+    --hairline: #DADADA;
+    --hairline-light: #EFEFEF;
+    --glow: transparent;
+    --glow-soft: transparent;
+    --grid-line: rgba(27, 27, 27, 0.05);
+    /* The wireframe is drawn in whatever the ground is not, so it has to turn
+       over with the rest of the page or it would disappear on paper. On a
+       light ground the darker of the two crimsons is the louder one, so the
+       travelling point and the equator swap weights. */
+    --gl-fill: rgba(27, 27, 27, 0.035);
+    --gl-line: rgba(27, 27, 27, 0.32);
+    --gl-rim: rgba(27, 27, 27, 0.60);
+    --gl-axis: rgba(27, 27, 27, 0.18);
+    --gl-accent: #A31F34;
+    --gl-accent-lit: #A31F34;
+  }
+
+  /* Let the swap sweep rather than snap. */
+  body,
+  .top-bar, .site-header, .hero, .hero-banner,
+  .card, .news-sidebar, .news-item,
+  .pillar, .pillar-front, .pillar-back, .btn, .site-footer {
+    transition: background-color 600ms ease, color 600ms ease,
+                border-color 600ms ease;
+  }
+
+  .gl-line, .gl-rim, .gl-axis, .gl-equator {
+    transition: stroke 600ms ease;
+  }
+
+  .gl-body { transition: fill 600ms ease; }
+  .gl-mark { transition: fill 600ms ease; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--display);
+    color: var(--fg);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  h2 { font-size: clamp(2rem, 4vw, 3rem); }
+  h3 { font-size: 1.6rem; }
+
+  a { color: var(--accent); }
+  a:hover { color: var(--fg); text-decoration: none; }
+
+  /* Underline only links inside prose, never the brand, nav or footer. */
+  .hero-main a:not(.btn),
+  .news-list a {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .hero-main a:not(.btn):hover,
+  .news-list a:hover { border-bottom-color: var(--fg); }
+
+  /* News links in Harvard crimson. The brand value #A31F34 only reaches
+     1.99:1 against the news card, which is not readable for body text, so
+     this keeps the hue and lifts it to 3.03:1. The underline stays, so the
+     link is still marked by more than colour alone. */
+  .news-list a {
+    color: #D62944;
+    border-bottom-color: rgba(214, 41, 68, 0.5);
+  }
+
+  .news-list a:hover {
+    color: #E8556C;
+    border-bottom-color: #E8556C;
+  }
+
+  /* The light theme's banner is solid crimson, so the logo, wordmark and nav
+     that sit on it all invert to white. 7.49:1 against #A31F34. */
+  .theme-crimson .site-header { border-bottom-color: #A31F34; }
+  .theme-crimson .brand-mark { color: #FFFFFF; }
+  .theme-crimson .brand-text .name { color: #FFFFFF; }
+  .theme-crimson .brand-text .tagline { color: rgba(255, 255, 255, 0.75); }
+  .theme-crimson .site-nav a { color: rgba(255, 255, 255, 0.8); }
+
+  .theme-crimson .site-nav a:hover,
+  .theme-crimson .site-nav a.active {
+    color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+  }
+
+  /* On white, plain #A31F34 clears 7:1, so the light theme uses the real
+     crimson rather than the lifted one the dark ground needs. */
+  .theme-crimson .news-list a {
+    color: #A31F34;
+    border-bottom-color: rgba(163, 31, 52, 0.45);
+  }
+
+  .theme-crimson .news-list a:hover {
+    color: #7A1626;
+    border-bottom-color: #7A1626;
+  }
+
+  /* Grey uppercase label followed by a rule, as the reference sets its
+     "KEY RECENT PUBLICATIONS" headings. */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--display);
+    color: var(--label);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--hairline);
+  }
+
+  section { padding: 5rem 0; }
+
+  /* ---- Top bar and header ---------------------------------------------- */
+
+  .top-bar {
+    background: var(--bg-sunken);
+    color: var(--on-sunken);
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--display);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .top-bar a { color: var(--on-sunken); }
+  .top-bar a:hover { color: #FFFFFF; }
+
+  .site-header {
+    background: var(--bg-header);
+    backdrop-filter: blur(14px) saturate(120%);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .brand-mark {
+    position: relative;
+    width: 56px;              /* room for the globe, which overflows this box */
+    height: 40px;
+    border-radius: 0;
+    background: none;
+    color: var(--accent);
+  }
+
+  /* The hero globe, held still, sitting behind the initials. */
+  .brand-globe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    opacity: 0.5;
+  }
+
+  .brand-mark-text {
+    position: relative;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .brand-text .name {
+    font-family: var(--display);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--fg);
+  }
+
+  .brand-text .tagline {
+    font-family: var(--display);
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.66rem;
+  }
+
+  .site-nav a {
+    border-bottom-width: 2px;
+    padding: 0.35rem 0;
+    margin-left: 2rem;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+    font-family: var(--display);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .site-nav a:hover,
+  .site-nav a.active {
+    background: none;
+    color: var(--fg);
+    border-bottom-color: var(--accent);
+  }
+
+  .nav-toggle { background: var(--bg-raised); border-color: var(--hairline); }
+  .nav-toggle span { background: var(--fg); }
+
+  /* ---- Hero ------------------------------------------------------------- */
+
+  /* Now the hero's backdrop rather than an empty strip above it. */
+  .hero-banner {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    background:
+      radial-gradient(120% 200% at 10% 0%, var(--glow) 0%, transparent 58%),
+      radial-gradient(90% 160% at 90% 100%, var(--glow-soft) 0%, transparent 62%),
+      var(--bg);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .hero-banner::after {
+    background-image:
+      repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 96px),
+      repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 96px);
+  }
+
+  .hero {
+    position: relative;
+    padding: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-items: end;
+    min-height: min(78vh, 44rem);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-main { max-width: none; }
+
+  /* The lab name, set as the display line. One word drops to grey, the way
+     the reference greys a word of its own headline. */
+  .hero-title {
+    margin: 0 0 2rem;
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 6.2vw, 5.6rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+
+  .hero-title span { color: var(--fg-dim); }
+
+  .hero p.lead {
+    color: var(--fg);
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 0;
+    padding: 0.9rem 1.7rem;
+    font-family: var(--display);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .btn::after { content: " \00BB"; }
+  .btn:hover { background: var(--accent); color: var(--on-accent); }
+
+  /* ---- News ------------------------------------------------------------- */
+
+  .home-layout { gap: 0; align-items: end; }
+  .hero-main { padding-right: 3.5rem; border-right: 1px solid var(--hairline); }
+  /* News sits at the top of the row, level with the display line. */
+  /* The news card runs the full height of the hero row so its bottom edge
+     lines up with the buttons at the foot of the left column. The trailing
+     margin on that button paragraph is what the row height ends on, so it is
+     zeroed out -- otherwise the card would finish ~16px lower. */
+  .hero-main > p:last-child { margin-bottom: 0; }
+
+  .home-sidebar {
+    padding-left: 3.5rem;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .home-sidebar .section-heading { margin-top: 0; }
+  .home-sidebar .section-heading .eyebrow { margin-top: 0; }
+  .home-sidebar .section-heading h2 { font-size: 1.5rem; margin-top: 0.5rem; }
+
+  .card, .news-sidebar {
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 0;
+    padding: 1.5rem;
+  }
+
+  /* Fills the rest of the column, but never taller than it: flex-basis 0 plus
+     min-height 0 is what stops the card growing with its content, which is
+     what keeps the list scrolling inside the box instead of pushing the box
+     past the left column. */
+  .news-sidebar {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+  }
+  .news-item { border-bottom: 1px solid var(--hairline); color: var(--fg-muted); font-size: 0.9rem; }
+  .news-item strong { color: var(--fg); font-weight: 600; }
+
+  .news-date {
+    font-family: var(--display);
+    color: var(--label);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Pillars: the reference's hinge-fold tiles ------------------------ */
+
+  .pillars {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--hairline);
+    border-right: 1px solid var(--hairline);
+  }
+
+  .pillar {
+    position: relative;
+    min-height: 260px;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid var(--hairline);
+    border-left: 1px solid var(--hairline);
+    perspective: 1000px;
+  }
+
+  .pillar-front,
+  .pillar-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.75rem;
+    text-align: right;
+    backface-visibility: hidden;
+    transition: transform 400ms ease;
+  }
+
+  .pillar-front { transform: rotateX(0deg); z-index: 2; }
+  .pillar-back { transform: rotateX(-180deg); z-index: 1; }
+
+  .pillar-front h3 { margin: 0; color: var(--fg); }
+  .pillar-front h3::after { content: " \226B"; color: var(--accent); }
+
+  /* Turned over, the tile is Harvard crimson with white text. The front face
+     keeps its bottom-right heading, but a paragraph set the same way reads
+     badly -- a ragged left edge with a gap above it -- so the back is left
+     aligned and centred in the tile instead. */
+  .pillar-back {
+    background: #A31F34;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .pillar-back p {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* The fold only where there is a real pointer, exactly as the reference
+     guards it. Everywhere else both faces simply stack and stay readable. */
+  @media (min-width: 1025px) and (hover: hover) {
+    .pillar:hover .pillar-front { transform: rotateX(50deg); }
+    .pillar:hover .pillar-back { transform: rotateX(0deg); z-index: 3; }
+  }
+
+  @media (max-width: 1024px), (hover: none) {
+    .pillar { min-height: 0; perspective: none; }
+    .pillar-front,
+    .pillar-back {
+      position: static;
+      transform: none;
+      backface-visibility: visible;
+      text-align: left;
+      padding: 0;
+      background: none !important;
+    }
+    .pillar-front { padding-top: 1.75rem; }
+    .pillar-back { padding: 0.75rem 0 1.75rem; }
+    .pillar-back p { color: var(--fg-muted); }
+    .pillars { border: none; }
+    .pillar { border-left: none; }
+  }
+
+  @media (max-width: 900px) {
+    .pillars { grid-template-columns: 1fr; }
+  }
+
+
+  /* ---- Wireframe globe --------------------------------------------------
+     Floats on the rule between the two hero columns, turning once every 16s.
+     Orthographic wire sphere: a spin about the polar axis leaves the
+     parallels alone, so the motion is carried by the meridians alone. Each
+     meridian is an ellipse whose horizontal radius sweeps 56 -> 0 -> 56: it
+     flattens to a line as its plane comes edge-on, then opens again as the
+     far half swings round. Six of them, offset by a sixth of the cycle each,
+     read as one continuous rotation.
+     ---------------------------------------------------------------------- */
+
+  /* Headline left, globe right, both centred against each other. The globe is
+     sized off the viewport so it stays roughly as tall as the three-line
+     display type at every width. */
+  .hero-headline {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 0 0 2rem;
+  }
+
+  .hero-headline .hero-title { flex: 1 1 auto; min-width: 0; margin: 0; }
+
+  .globe {
+    flex: 0 0 auto;
+    width: clamp(150px, 18vw, 240px);
+    pointer-events: none;
+    animation: gl-float 9s ease-in-out infinite;
+  }
+
+  /* The box is square but the target should not be: an unpainted circle with
+     pointer-events:all keeps the corners dead and the sphere live. */
+  .gl-hit {
+    fill: none;
+    pointer-events: all;
+    cursor: pointer;
+  }
+
+  .globe svg { display: block; width: 100%; height: auto; }
+
+  .gl-body { fill: var(--gl-fill); }
+
+  /* non-scaling-stroke puts every stroke-width below in CSS pixels rather than
+     viewBox units, so growing the globe does not thicken the wireframe with
+     it and the lines stay hairlines at any size. */
+  .gl-line {
+    fill: none;
+    stroke: var(--gl-line);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The silhouette carries the form, so it is the one line drawn at strength. */
+  .gl-rim {
+    fill: none;
+    stroke: var(--gl-rim);
+    stroke-width: 1.6;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .gl-axis {
+    stroke: var(--gl-axis);
+    stroke-width: 1;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The only chromatic marks on an otherwise monochrome page: the equator and
+     the point riding it. */
+  .gl-equator {
+    fill: none;
+    stroke: var(--gl-accent);
+    stroke-width: 1.3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The moving point is the brighter of the two, so the eye goes to it rather
+     than to the ring it rides. */
+  .gl-mark { fill: var(--gl-accent-lit); }
+
+  /* A meridian's own cycle is half a turn, since the near and far halves of
+     the ring look alike; six of them a sixth of that apart make a full turn
+     of 16s. Negative delays start each one already in position. */
+  .gl-meridian { animation: gl-meridian 8s linear infinite; }
+  .gl-meridians ellipse:nth-child(1) { animation-delay: 0s; }
+  .gl-meridians ellipse:nth-child(2) { animation-delay: -1.333s; }
+  .gl-meridians ellipse:nth-child(3) { animation-delay: -2.667s; }
+  .gl-meridians ellipse:nth-child(4) { animation-delay: -4s; }
+  .gl-meridians ellipse:nth-child(5) { animation-delay: -5.333s; }
+  .gl-meridians ellipse:nth-child(6) { animation-delay: -6.667s; }
+
+  /* rx = 56 * |cos| of the angle turned, sampled every eighth of the cycle so
+     linear steps in between stay close to the true curve. */
+  @keyframes gl-meridian {
+    0%    { rx: 56px; }
+    12.5% { rx: 51.7px; }
+    25%   { rx: 39.6px; }
+    37.5% { rx: 21.4px; }
+    50%   { rx: 0px; }
+    62.5% { rx: 21.4px; }
+    75%   { rx: 39.6px; }
+    87.5% { rx: 51.7px; }
+    100%  { rx: 56px; }
+  }
+
+  /* The marker traces the equator ellipse and is hidden over the far half. */
+  .gl-mark-orbit { animation: gl-orbit 16s linear infinite; }
+  .gl-mark-fade  { animation: gl-orbit-fade 16s linear infinite; }
+
+  @keyframes gl-orbit {
+    0%    { transform: translate(0px, 11.2px); }
+    12.5% { transform: translate(39.6px, 7.9px); }
+    25%   { transform: translate(56px, 0px); }
+    37.5% { transform: translate(39.6px, -7.9px); }
+    50%   { transform: translate(0px, -11.2px); }
+    62.5% { transform: translate(-39.6px, -7.9px); }
+    75%   { transform: translate(-56px, 0px); }
+    87.5% { transform: translate(-39.6px, 7.9px); }
+    100%  { transform: translate(0px, 11.2px); }
+  }
+
+  @keyframes gl-orbit-fade {
+    0%, 24%   { opacity: 1; }
+    29%, 71%  { opacity: 0; }
+    76%, 100% { opacity: 1; }
+  }
+
+  @keyframes gl-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-9px); }
+  }
+
+  @media (max-width: 900px) {
+    .globe { display: none; }
+  }
+
+  /* Frozen, the meridians fall back to the rx on the markup, which is a
+     generic pose rather than a symmetric one, so it still reads as a sphere. */
+  @media (prefers-reduced-motion: reduce) {
+    .globe, .globe * { animation: none !important; }
+  }
+
+  /* ---- Footer ----------------------------------------------------------- */
+
+  .site-footer {
+    background: var(--bg-sunken);
+    border-top: 1px solid var(--hairline);
+    color: var(--on-sunken);
+    margin-top: 0;
+  }
+
+  .site-footer strong { color: #FFFFFF; }
+  .site-footer a { color: var(--on-sunken); }
+  .site-footer a:hover { color: #FFFFFF; }
+
+  .site-footer .foot-links {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Sections rise into view as you scroll ---------------------------- */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .pillar-front, .pillar-back { transition: none; }
+  }
+
+  @media (max-width: 900px) {
+    .hero .container { min-height: 0; }
+    .hero-main { padding-right: 0; border-right: none; }
+    .home-sidebar { padding-left: 0; padding-top: 2.5rem; }
+  }
+
+  @media (max-width: 800px) {
+    .site-nav a { margin-left: 0; }
+    section { padding: 3.5rem 0; }
+    .hero .container { padding-top: 3rem; padding-bottom: 3rem; }
+  }
+</style>
+<script>
+  /* The globe on the home page sets this. Applied here before first paint so a
+     page never flashes one theme and then repaints to the other. */
+  try {
+    if (localStorage.getItem("cdl-theme") === "crimson") {
+      document.documentElement.classList.add("theme-crimson");
+      var d = document.getElementById("theme-dark");
+      if (d) { d.disabled = true; }
+    }
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <span>Department of Psychology, Harvard University</span>
+    <span><a href="contact.html">Join the lab</a></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" style="text-decoration:none;">
+      <span class="brand-mark">
+        <svg class="brand-globe" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+          <g transform="rotate(-16 20 20)" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="20" cy="20" r="18"/>
+            <ellipse cx="20" cy="20" rx="11" ry="18"/>
+            <ellipse cx="20" cy="20" rx="4" ry="18"/>
+            <ellipse cx="20" cy="20" rx="18" ry="6"/>
+          </g>
+        </svg>
+        <span class="brand-mark-text">CDL</span>
+      </span>
+      <span class="brand-text">
+        <span class="name">Cultural Dynamics Lab</span>
+        <span class="tagline">Psychology &amp; cultural evolution</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="people.html">People</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-banner" role="img" aria-label="Abstract banner"></div>
+  <div class="container home-layout">
+    <div class="hero-main">
+      <!-- The display line and the globe share a row: the globe is a flex
+           sibling rather than an absolute overlay, so the headline always
+           wraps to fit beside it instead of colliding with it at some
+           in-between width. -->
+      <div class="hero-headline">
+        <p class="hero-title">Cultural <span>Dynamics</span> Lab</p>
+        <!-- Wireframe globe. Purely decorative: it stands to the right of the
+             display line and turns on its axis once every 16 seconds. Hidden
+             below 900px and frozen under prefers-reduced-motion. -->
+        <div class="globe" aria-hidden="true">
+          <svg viewBox="0 0 140 140" role="presentation" focusable="false">
+            <!-- the whole sphere is tilted in the plane of the page, so the poles
+                 sit off vertical the way a desk globe's do -->
+            <circle class="gl-hit" cx="70" cy="70" r="58" />
+
+          <g transform="rotate(-16 70 70)">
+              <!-- the axis, poking out past both poles -->
+              <line class="gl-axis" x1="70" y1="5" x2="70" y2="135" />
+
+              <circle class="gl-body" cx="70" cy="70" r="56" />
+
+              <!-- parallels at +/-22, +/-44, +/-66 degrees. A spin about the polar
+                   axis leaves these untouched, so they are drawn once and left. -->
+              <ellipse class="gl-line" cx="70" cy="18.8"  rx="22.8" ry="4.6" />
+              <ellipse class="gl-line" cx="70" cy="31.1"  rx="40.3" ry="8.1" />
+              <ellipse class="gl-line" cx="70" cy="49.0"  rx="51.9" ry="10.4" />
+              <ellipse class="gl-line" cx="70" cy="91.0"  rx="51.9" ry="10.4" />
+              <ellipse class="gl-line" cx="70" cy="108.9" rx="40.3" ry="8.1" />
+              <ellipse class="gl-line" cx="70" cy="121.2" rx="22.8" ry="4.6" />
+
+              <!-- meridians: the rotation lives entirely here. The rx written on
+                   each one is only a fallback pose for a browser that will not
+                   animate CSS geometry properties; the stylesheet drives it. -->
+              <g class="gl-meridians">
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="55.5" ry="56" />
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="44.4" ry="56" />
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="21.4" ry="56" />
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="7.3"  ry="56" />
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="34.1" ry="56" />
+                <ellipse class="gl-line gl-meridian" cx="70" cy="70" rx="51.7" ry="56" />
+              </g>
+
+              <ellipse class="gl-equator" cx="70" cy="70" rx="56" ry="11.2" />
+
+              <!-- rim last, so the silhouette stays the crispest line on the page -->
+              <circle class="gl-rim" cx="70" cy="70" r="56" />
+
+              <!-- a marker riding the equator, blanked while it passes round the back -->
+              <g class="gl-mark-fade">
+                <g class="gl-mark-orbit">
+                  <circle class="gl-mark" cx="70" cy="70" r="2.2" />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="lead">
+        The Cultural Dynamics Laboratory is devoted to studying the interplay between psychological change and societal change. 
+        We hope to better understand and predict the psychological impact of new technologies, institutions, and environmental events, with a focus on cultural values and belief systems. 
+      </p>
+      <p class="lead">
+        We also examine how these psychological changes might scale up to shape the technological, institutional, and environmental events of tomorrow. Our group is theoretically guided by models of social psychology and cultural evolution. 
+        We test predictions from these theories using a broad set of methodologies from the experimental and computational social sciences.
+      </p>
+      <p>
+        <a class="btn" href="research.html">Explore our research</a>
+        &nbsp;&nbsp;
+        <a href="people.html">Meet the lab &rarr;</a>
+      </p>
+    </div>
+
+    <aside class="home-sidebar">
+      <div class="section-heading">
+        <p class="eyebrow">Lab news</p>
+        <h2>News and updates</h2>
+      </div>
+      <div class="card news-sidebar">
+        <div class="news-list">
+          <!-- Sample entries. Replace with current lab news as it happens. -->
+          <div class="news-item">
+            <div class="news-date">August 2026</div>
+            <div>
+              <strong>Lab&rsquo;s work on differentiation and negativity covered in the
+              <em><a href="https://news.harvard.edu/gazette/story/2026/08/does-vitriol-make-you-feel-special/" target="_blank" rel="noopener noreferrer">Harvard Gazette</a></em>.</strong>
+              The article highlights research on why online conversations can become more negative over
+              time.
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-date">July 2026</div>
+            <div>
+              <strong>The lab arrives at Harvard.</strong>
+              The Cultural Dynamics Lab begins its work in the Department of Psychology at Harvard
+              University, led by Assistant Professor Joshua Conrad Jackson.
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-date">2026</div>
+            <div>
+              <strong>Lab&rsquo;s work on feed-ranking algorithms published in
+              <em><a href="https://www.nature.com/articles/s41586-026-10536-1" target="_blank" rel="noopener noreferrer">Nature</a></em>.</strong>
+              The study examines how feed-ranking algorithms shape perceived social norms during a
+              national election.
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-date">2025</div>
+            <div>
+              <strong><a href="https://www.sciencedirect.com/journal/current-research-in-ecological-and-social-psychology/special-issue/10PBMKHQMV0" target="_blank" rel="noopener noreferrer">Historical Psychology Special Issue</a></strong>
+              Edited by Joshua Conrad Jackson and Mohammad Atari, the special issue explores how
+              historical events shape the minds of today.
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">What defines the lab</p>
+      <h2>Theory, scope, and method</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-front"><h3>Theoretical focus</h3></div>
+        <div class="pillar-back"><p>We bridge models of psychology, such as constructionism and information processing, with models
+        of cultural evolution, such as attraction, dual-inheritance theory, and niche construction.</p></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-front"><h3>Broad scope</h3></div>
+        <div class="pillar-back"><p>Our lab’s work spans many processes. We study political and religious
+        belief systems, moral, emotional, and personality concepts, and sociocultural values to draw
+        out broader truths about psychological change.</p></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-front"><h3>Mixed methods</h3></div>
+        <div class="pillar-back"><p>We combine theoretical models and experimental data with archival datasets that reveal the
+        real-world manifestations of the phenomena we study.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <strong>Cultural Dynamics Lab</strong><br>
+      Department of Psychology, Harvard University<br>
+      William James Hall, 33 Kirkland Street, Cambridge, MA 02138
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  // Sections rise into view, in the spirit of the reference site's entrance
+  // animations. Purely decorative: without JS everything is simply visible.
+  (function () {
+    if (!("IntersectionObserver" in window)) { return; }
+    var targets = document.querySelectorAll(".hero-main, .home-sidebar, .section-heading, .pillar");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { return; }
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -12% 0px" });
+
+    targets.forEach(function (el, i) {
+      el.classList.add("reveal");
+      el.style.transitionDelay = (i % 3) * 90 + "ms";
+      io.observe(el);
+    });
+  }());
+
+  // The globe answers the pointer: hovering speeds up the spin and the bob,
+  // clicking repaints the page. Decorative only — nothing on the page depends
+  // on either, and without JS the globe simply turns at its resting rate.
+  (function () {
+    var globe = document.querySelector(".globe");
+    var hit = document.querySelector(".gl-hit");
+    if (!globe || !hit || !globe.getAnimations) { return; }
+
+    var SPIN = 3.5;   // meridians, and the marker riding the equator
+    var BOB = 3;      // the vertical float
+
+    // Swapping animation-duration on hover would restart each cycle and make
+    // every meridian jump. Setting the playback rate instead leaves each
+    // animation exactly where it is and only changes how fast it runs from
+    // here on. updatePlaybackRate() would be the tidier call, but it defers
+    // the change to the animation's ready promise and was observed leaving it
+    // pending indefinitely, so assign the rate outright.
+    function rate(spin, bob) {
+      globe.getAnimations({ subtree: true }).forEach(function (a) {
+        // getAnimations also hands back the colour transitions running on the
+        // wireframe after a theme swap; those are not ours to re-time.
+        if (typeof a.animationName !== "string") { return; }
+        a.playbackRate = (a.animationName === "gl-float") ? bob : spin;
+      });
+    }
+
+    hit.addEventListener("mouseenter", function () { rate(SPIN, BOB); });
+    hit.addEventListener("mouseleave", function () { rate(1, 1); });
+
+    // Paper ground and crimson accent, then back to monochrome. The 600ms
+    // transitions declared up in the stylesheet carry the swap.
+    hit.addEventListener("click", function () {
+      // The class goes on <html>, not <body>, so the head snippet on every
+      // other page can set it before that page has a body to mark.
+      var on = document.documentElement.classList.toggle("theme-crimson");
+      try { localStorage.setItem("cdl-theme", on ? "crimson" : "mono"); } catch (e) {}
+    });
+  }());
+</script>
+
+</body>
+</html>
