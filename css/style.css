@@ -1061,6 +1061,15 @@ section + section {
   margin-bottom: 1.25rem;
 }
 
+/* "Harvard faculty profile" and "Personal website" are ordinary words, so
+   without an underline nothing shows they are links -- unlike the email
+   addresses beside them, which announce themselves. */
+.profile-links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 .contact-block h3 {
   margin-top: 0;
 }
