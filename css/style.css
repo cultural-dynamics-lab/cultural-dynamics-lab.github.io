@@ -1159,7 +1159,12 @@ section + section {
   .nav-drawer {
     display: block;
     position: fixed;
-    inset: 0 0 0 auto;
+    /* Longhand rather than the inset shorthand, which Safari only learned in
+       14.1; an iPhone older than that would leave the panel unanchored. */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
     width: min(76vw, 330px);
     z-index: 70;
     background: #242424;
@@ -1201,7 +1206,10 @@ section + section {
   .nav-backdrop {
     display: block;
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 65;
     background: rgba(0, 0, 0, 0.4);
     opacity: 0;

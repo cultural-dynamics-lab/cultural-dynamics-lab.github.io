@@ -7,7 +7,7 @@
 <meta name="description" content="The Cultural Dynamics Lab studies how psychological change and societal change shape each other, directed by Joshua Conrad Jackson.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261002a">
 <style>
   /* ======================================================================
      Home page theme, modelled on deepestbeliefslab.com.
@@ -706,14 +706,18 @@
     .home-sidebar { padding-left: 0; padding-top: 2.5rem; }
 
     /* The sidebar stops being a column beside the hero here, so there is no
-       leftover height for the card to fill: flex: 1 1 0 collapsed it to a
-       single line. Below this width it simply grows with its items, and the
-       page scrolls instead of the card. */
+       leftover height to fill: flex: 1 1 0 collapsed the card to a single
+       line. A fixed height instead, about two and a half items tall, so the
+       cut-off third one shows there is more to scroll to.
+       overscroll-behavior keeps that scroll inside the card rather than
+       carrying on into the page once it reaches the end. */
     .news-sidebar {
       flex: 0 0 auto;
       min-height: 0;
-      max-height: none;
-      overflow-y: visible;
+      max-height: 25rem;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
   }
 
@@ -945,7 +949,7 @@
   </div>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=20261002a"></script>
 <script>
   // Sections rise into view, in the spirit of the reference site's entrance
   // animations. Purely decorative: without JS everything is simply visible.
