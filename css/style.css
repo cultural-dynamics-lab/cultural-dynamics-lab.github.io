@@ -1114,23 +1114,15 @@ section + section {
   margin-top: 2rem;
 }
 
+/* One block of text now that the link row has gone, so nothing to space
+   apart. */
 .site-footer .container {
   padding: 2.5rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
   font-size: 0.85rem;
 }
 
 .site-footer a {
   color: #EFEFEF;
-}
-
-.site-footer .foot-links {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
 }
 
 /* ---------------------------------------------------------------------- */

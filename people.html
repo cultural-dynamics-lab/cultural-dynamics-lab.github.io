@@ -9,7 +9,7 @@
 <meta name="description" content="Meet the members of the Cultural Dynamics Lab and explore the cross-cultural perspectives they bring to the lab.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261002d">
+<link rel="stylesheet" href="css/style.css?v=20261002e">
 <style>
 /* ======================================================================
    Hometown map, scoped styles for people_new.html
@@ -32,7 +32,9 @@
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 1.5rem;
+  /* Roomier than the usual card: the labels stand outside the map, and this
+     padding is where they go before anything has to be nudged. */
+  padding: 2.25rem 2rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 290px;
   gap: 1.75rem;
@@ -41,13 +43,16 @@
 
 /* ---- The map itself -------------------------------------------------- */
 
+/* No clipping here: a label belonging to a marker near an edge reaches past
+   the map, and the room for it is the card's padding. The rounded background
+   and the border still describe the map itself. */
 .hm-canvas {
   position: relative;
   width: 100%;
   aspect-ratio: 360 / 143;
   border: 1px solid var(--line);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
   background: var(--paper);
 }
 
@@ -620,8 +625,8 @@
   .hm-marker::before { transition: none; }
 }
 </style>
-<link rel="stylesheet" href="css/type.css?v=20261002d">
-<link rel="stylesheet" id="theme-dark" href="css/dark.css?v=20261002d">
+<link rel="stylesheet" href="css/type.css?v=20261002e">
+<link rel="stylesheet" id="theme-dark" href="css/dark.css?v=20261002e">
 <script>
   /* The light palette is the default; the globe on the home page stores a
      choice. Only an explicit "mono" turns the dark palette on, so a browser
@@ -1325,15 +1330,10 @@
       Department of Psychology, Harvard University<br>
       William James Hall, 33 Kirkland Street, Cambridge, MA 02138
     </div>
-    <div class="foot-links">
-      <a href="people.html">People</a>
-      <a href="research.html">Research</a>
-      <a href="contact.html">Contact</a>
-    </div>
   </div>
 </footer>
 
-<script src="js/script.js?v=20261002d"></script>
+<script src="js/script.js?v=20261002e"></script>
 
 <script>
 (function () {
@@ -1484,9 +1484,12 @@
      by exactly the amount it overhangs. Nothing moves for the markers that
      already fit, which is most of them. */
   function fitLabels() {
-    var canvas = root.querySelector(".hm-canvas");
-    if (!canvas) { return; }
-    var box = canvas.getBoundingClientRect();
+    // Clamped to the card, not to the map: a label may stand over the padding
+    // around the map, and only the few that would leave the card entirely are
+    // nudged back.
+    if (!root) { return; }
+    var r = root.getBoundingClientRect();
+    var box = { left: r.left + 4, right: r.right - 4 };
     markers.forEach(function (marker) {
       marker.style.setProperty("--tip-shift", "0px");
       var width = parseFloat(window.getComputedStyle(marker, "::after").width);
