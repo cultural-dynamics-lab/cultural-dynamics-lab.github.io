@@ -12,6 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
   initHometownMap();
 });
 
+/* ----------------------------------------------------------------------
+   RESEARCH THEMES
+
+   The five panels on research.html, in the order their buttons appear
+   there. The drawer menu on a phone lists them under Research, so the
+   names have to be kept in step with that page -- it is the one list to
+   edit when a theme is added, renamed or reordered.
+   ---------------------------------------------------------------------- */
+var RESEARCH_THEMES = [
+  "Cultural Evolutionary Psychology",
+  "Scale, Threat, and Strong Social Norms",
+  "Social Cognition in Societies of Strangers",
+  "Persistent Diversity in a Globalized World",
+  "Algorithm-Mediated Cultural Evolution"
+];
+
+// "Scale, Threat, and Strong Social Norms" -> "scale-threat-and-strong-social-norms"
+function themeSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 function setActiveNavLink() {
   // A page in a subfolder (people/shiyun-cao.html) is not named after the nav
   // section it belongs to, and its links are written "../people.html". So let
@@ -53,13 +74,38 @@ function initNavToggle() {
   // here too.
   var list = document.createElement("ul");
   nav.querySelectorAll("a").forEach(function (link) {
+    var href = link.getAttribute("href");
     var item = document.createElement("li");
     var copy = document.createElement("a");
-    copy.href = link.getAttribute("href");
+    copy.href = href;
     copy.textContent = link.textContent;
     if (link.classList.contains("active")) { copy.classList.add("active"); }
     copy.addEventListener("click", function () { setOpen(false); });
     item.appendChild(copy);
+
+    // The research themes hang under Research here rather than standing in a
+    // list on the page itself, which is where they sat on a phone before.
+    if (/research\.html$/.test(href)) {
+      var base = href.replace(/#.*$/, "");
+      var subs = document.createElement("ul");
+      subs.className = "nav-sub";
+      RESEARCH_THEMES.forEach(function (name) {
+        var slug = themeSlug(name);
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = base + "#" + slug;
+        a.textContent = name;
+        if (copy.classList.contains("active") &&
+            window.location.hash.replace(/^#/, "") === slug) {
+          a.classList.add("active");
+        }
+        a.addEventListener("click", function () { setOpen(false); });
+        li.appendChild(a);
+        subs.appendChild(li);
+      });
+      item.appendChild(subs);
+    }
+
     list.appendChild(item);
   });
   drawer.appendChild(list);
@@ -98,14 +144,34 @@ function initTabs() {
     if (!panelWrapper) return;
     var panels = panelWrapper.querySelectorAll(".tab-panel");
 
+    function show(index, writeHash) {
+      buttons.forEach(function (b) { b.classList.remove("active"); });
+      panels.forEach(function (p) { p.classList.remove("active"); });
+      if (buttons[index]) { buttons[index].classList.add("active"); }
+      if (panels[index]) { panels[index].classList.add("active"); }
+      // The address bar follows, so a theme can be linked to and reloaded.
+      if (writeHash && buttons[index] && window.history.replaceState) {
+        window.history.replaceState(null, "",
+          "#" + themeSlug(buttons[index].textContent));
+      }
+    }
+
     buttons.forEach(function (btn, index) {
-      btn.addEventListener("click", function () {
-        buttons.forEach(function (b) { b.classList.remove("active"); });
-        panels.forEach(function (p) { p.classList.remove("active"); });
-        btn.classList.add("active");
-        if (panels[index]) panels[index].classList.add("active");
-      });
+      btn.addEventListener("click", function () { show(index, true); });
     });
+
+    // A theme named in the URL opens instead of the first one. This is how the
+    // drawer menu reaches a panel from another page.
+    function fromHash() {
+      var want = window.location.hash.replace(/^#/, "");
+      if (!want) { return; }
+      for (var i = 0; i < buttons.length; i++) {
+        if (themeSlug(buttons[i].textContent) === want) { show(i, false); return; }
+      }
+    }
+
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
   });
 }
 
