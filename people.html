@@ -144,13 +144,18 @@
   bottom: 100%;
   left: 50%;
   transform: translate(-50%, -2px);
-  white-space: nowrap;
+  /* pre-line keeps the newline the script puts between the name and the town,
+     and still wraps a long town itself rather than running off the map. */
+  white-space: pre-line;
+  width: max-content;
+  max-width: min(15rem, 70vw);
+  text-align: center;
   background: var(--ink);
   color: #fff;
   font-size: 0.72rem;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.55rem;
   border-radius: 5px;
   opacity: 0;
   visibility: hidden;
@@ -1434,7 +1439,9 @@
     button.className = "hm-marker";
     button.dataset.group = member.group;
     button.dataset.index = String(index);
-    button.dataset.tip = member.name + " · " + member.city;
+    // Two lines: the two of them on one ran wider than the map on a phone,
+    // and the name, being first, was the half that got cut off.
+    button.dataset.tip = member.name + "\n" + member.city;
     button.style.setProperty("--x", point.x.toFixed(2) + "%");
     button.style.setProperty("--y", point.y.toFixed(2) + "%");
     button.setAttribute("aria-pressed", "false");
