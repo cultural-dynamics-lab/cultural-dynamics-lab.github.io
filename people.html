@@ -569,7 +569,10 @@
 }
 
 @media (max-width: 620px) {
-  .lab-photo, .lab-slides { aspect-ratio: 3 / 2; }
+  /* Same frame as the wide layout. At 3:2 this took 7% off each side, which
+     cut the two people sitting at the edges of the cafe photo in half; the
+     taller photos lose a little sky and a little floor instead. */
+  .lab-photo, .lab-slides { aspect-ratio: 16 / 9; }
   .lab-nav { width: 2.2rem; height: 2.2rem; margin-top: -1.1rem; }
   .lab-nav-prev { left: 0.5rem; }
   .lab-nav-next { right: 0.5rem; }
@@ -1517,7 +1520,7 @@
     { file: "DSCF7337.jpg", caption: "The Cultural Dynamics Lab" },
     { file: "DSCF7351.jpg", caption: "The Cultural Dynamics Lab" },
     { file: "IMG_4498.jpg", caption: "The Cultural Dynamics Lab" },
-    { file: "PXL_20260914_190901886.jpg", caption: "The Cultural Dynamics Lab" }
+    { file: "lab-cafe-2026.jpg", caption: "The Cultural Dynamics Lab" }
   ];
 
   /* The page loads the resized copies in  images/lab photos/web/  rather than
