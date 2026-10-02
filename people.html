@@ -143,7 +143,7 @@
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translate(-50%, -2px);
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), -2px);
   /* pre-line keeps the newline the script puts between the name and the town,
      and still wraps a long town itself rather than running off the map. */
   white-space: pre-line;
@@ -169,10 +169,15 @@
   visibility: visible;
 }
 
-/* Markers near the map edges flip their label inward */
-.hm-marker[data-edge="left"]::after { left: 0; transform: translate(0, -2px); }
-.hm-marker[data-edge="right"]::after { left: auto; right: 0; transform: translate(0, -2px); }
-.hm-marker[data-edge="top"]::after { bottom: auto; top: 100%; transform: translate(-50%, 2px); }
+/* A marker in the top row drops its label below itself. Sideways, the script
+   measures each label and shifts it just far enough to stay on the map: how far
+   a label reaches depends on how long the name and the town are, which a
+   threshold on the marker's own position cannot know. */
+.hm-marker[data-edge="top"]::after {
+  bottom: auto;
+  top: 100%;
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), 2px);
+}
 
 /* ---- Sidebar --------------------------------------------------------- */
 
@@ -1459,9 +1464,7 @@
       (member.confirmed ? ". Hometown: " : ". Placeholder hometown: ") +
       member.city + "." + (member.now ? " Now at " + member.now + "." : ""));
 
-    if (point.x < 12) { button.dataset.edge = "left"; }
-    else if (point.x > 88) { button.dataset.edge = "right"; }
-    else if (point.y < 14) { button.dataset.edge = "top"; }
+    if (point.y < 14) { button.dataset.edge = "top"; }
 
     button.addEventListener("click", function () { select_member(index, true); });
     button.addEventListener("focus", function () { select_member(index, false); });
@@ -1474,6 +1477,33 @@
     option.textContent = member.name;
     select.appendChild(option);
   });
+
+  /* Each label is as wide as the name and town inside it, so whether one runs
+     off the map depends on the text as much as on where the marker sits. Rather
+     than guess from the marker's position, measure the label and slide it back
+     by exactly the amount it overhangs. Nothing moves for the markers that
+     already fit, which is most of them. */
+  function fitLabels() {
+    var canvas = root.querySelector(".hm-canvas");
+    if (!canvas) { return; }
+    var box = canvas.getBoundingClientRect();
+    markers.forEach(function (marker) {
+      marker.style.setProperty("--tip-shift", "0px");
+      var width = parseFloat(window.getComputedStyle(marker, "::after").width);
+      if (!width) { return; }
+      var rect = marker.getBoundingClientRect();
+      var centre = rect.left + rect.width / 2;
+      var shift = 0;
+      if (centre - width / 2 < box.left) { shift = box.left - (centre - width / 2); }
+      else if (centre + width / 2 > box.right) { shift = box.right - (centre + width / 2); }
+      marker.style.setProperty("--tip-shift", Math.round(shift) + "px");
+    });
+  }
+
+  fitLabels();
+  window.addEventListener("resize", fitLabels);
+  // Web fonts land after first layout and change how wide a label is.
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitLabels); }
 
   function select_member(index, fromClick) {
     var member = MEMBERS[index];
