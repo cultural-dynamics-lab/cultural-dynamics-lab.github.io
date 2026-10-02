@@ -672,10 +672,30 @@
     .pillar-front, .pillar-back { transition: none; }
   }
 
+  /* Two separate calls to action, not one sentence: a flex row keeps each
+     whole when the line wraps, instead of leaving "Meet the" above "lab". */
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.6rem;
+  }
+
   @media (max-width: 900px) {
     .hero .container { min-height: 0; }
     .hero-main { padding-right: 0; border-right: none; }
     .home-sidebar { padding-left: 0; padding-top: 2.5rem; }
+
+    /* The sidebar stops being a column beside the hero here, so there is no
+       leftover height for the card to fill: flex: 1 1 0 collapsed it to a
+       single line. Below this width it simply grows with its items, and the
+       page scrolls instead of the card. */
+    .news-sidebar {
+      flex: 0 0 auto;
+      min-height: 0;
+      max-height: none;
+      overflow-y: visible;
+    }
   }
 
   @media (max-width: 800px) {
@@ -815,9 +835,8 @@
         We also examine how these psychological changes might scale up to shape the technological, institutional, and environmental events of tomorrow. Our group is theoretically guided by models of social psychology and cultural evolution. 
         We test predictions from these theories using a broad set of methodologies from the experimental and computational social sciences.
       </p>
-      <p>
+      <p class="hero-cta">
         <a class="btn" href="research.html">Explore our research</a>
-        &nbsp;&nbsp;
         <a href="people.html">Meet the lab &rarr;</a>
       </p>
     </div>

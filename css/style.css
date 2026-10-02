@@ -112,6 +112,14 @@ h4 { font-size: 1.1rem; }
   gap: 0.3rem;
 }
 
+/* Both halves cannot fit on a phone: the department line alone fills a 390px
+   screen, so the second one wrapped underneath and left the bar two lines
+   tall. "Join the lab" is in the navigation on every page, so drop it here. */
+@media (max-width: 560px) {
+  .top-bar .container > span:last-child { display: none; }
+  .top-bar .container { justify-content: center; }
+}
+
 .top-bar a {
   color: #C4C4C4;
 }

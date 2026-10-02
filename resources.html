@@ -27,7 +27,9 @@
    460px the container (1072px of usable width) fits exactly two. */
 .res-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+  /* min() caps the track at the container, so a 390px phone gets one column
+     instead of a 460px track overflowing the screen. */
+  grid-template-columns: repeat(auto-fill, minmax(min(460px, 100%), 1fr));
   gap: 1.25rem;
 }
 
