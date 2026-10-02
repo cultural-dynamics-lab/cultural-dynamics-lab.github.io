@@ -691,6 +691,16 @@
     .pillar-front, .pillar-back { transition: none; }
   }
 
+  /* 1.3rem is a lead paragraph on a wide column; on a phone it is just large,
+     and the two opening paragraphs filled the screen before anything else
+     appeared. Closer to the body copy elsewhere, still a step above it. */
+  @media (max-width: 700px) {
+    .hero p.lead {
+      font-size: 1.1rem;
+      line-height: 1.65;
+    }
+  }
+
   /* Two separate calls to action, not one sentence: a flex row keeps each
      whole when the line wraps, instead of leaving "Meet the" above "lab". */
   .hero-cta {
