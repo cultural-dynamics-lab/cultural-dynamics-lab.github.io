@@ -1261,3 +1261,22 @@ section + section {
 }
 
 .theme-crimson .nav-toggle span { background: #FFFFFF; }
+
+/* The wordmark is nowrap, so the brand block has a fixed width; below this
+   it and the menu button stop fitting on one row and the button drops under
+   the logo, which doubled the header to 142px on a 375px iPhone. The prefix
+   on .brand-mark is there to outrank the copy of that rule inside index.html,
+   which is later in the cascade. */
+@media (max-width: 420px) {
+  .brand { gap: 0.5rem; }
+  .site-header .brand-mark { width: 46px; height: 34px; }
+  .site-header .brand-globe { width: 42px; height: 42px; }
+  .site-header .brand-mark-text { font-size: 1.25rem; }
+  .brand-text .name { font-size: 0.92rem; }
+  .brand-text .tagline { font-size: 0.56rem; letter-spacing: 0.12em; }
+}
+
+@media (max-width: 345px) {
+  .brand-text .tagline { display: none; }
+  .top-bar { font-size: 0.7rem; }
+}

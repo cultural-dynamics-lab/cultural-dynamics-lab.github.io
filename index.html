@@ -336,7 +336,7 @@
     color: var(--fg);
   }
 
-  .hero-title span { color: var(--fg-dim); }
+  .hero-title .dim { color: var(--fg-dim); }
 
   .hero p.lead {
     color: var(--fg);
@@ -627,8 +627,28 @@
     50%      { transform: translateY(-9px); }
   }
 
+  /* Phone layout: the same arrangement as the wide one, scaled down. The
+     headline breaks one word per line so the three lines stand as tall as the
+     globe beside them, which is what makes the pairing read as a unit rather
+     than as a title with a decoration stuck to it. */
   @media (max-width: 900px) {
-    .globe { display: none; }
+    .hero-headline {
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .globe {
+      width: clamp(96px, 26vw, 170px);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 10.5vw, 3.6rem);
+      line-height: 1.02;
+    }
+
+    /* Each word on its own line. The span wrapper exists only for this: at
+       full width the three sit inline and wrap on their own. */
+    .hero-title .w { display: block; }
   }
 
   /* Frozen, the meridians fall back to the rx on the markup, which is a
@@ -775,7 +795,7 @@
            wraps to fit beside it instead of colliding with it at some
            in-between width. -->
       <div class="hero-headline">
-        <p class="hero-title">Cultural <span>Dynamics</span> Lab</p>
+        <p class="hero-title"><span class="w">Cultural</span> <span class="w dim">Dynamics</span> <span class="w">Lab</span></p>
         <!-- Wireframe globe. Purely decorative: it stands to the right of the
              display line and turns on its axis once every 16 seconds. Hidden
              below 900px and frozen under prefers-reduced-motion. -->
