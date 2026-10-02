@@ -7,7 +7,7 @@
 <meta name="description" content="The Cultural Dynamics Lab studies how psychological change and societal change shape each other, directed by Joshua Conrad Jackson.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20261002c">
+<link rel="stylesheet" href="css/style.css?v=20261002d">
 <style>
   /* ======================================================================
      Home page theme, modelled on deepestbeliefslab.com.
@@ -465,29 +465,27 @@
     line-height: 1.7;
   }
 
-  /* The fold only where there is a real pointer, exactly as the reference
-     guards it. Everywhere else both faces simply stack and stay readable. */
-  @media (min-width: 1025px) and (hover: hover) {
+  /* The fold opens on hover where there is a pointer to hover with, and on a
+     tap where there is not: the script marks the tile instead. Both land on
+     the same two transforms, so a tile turns the same way either way. */
+  @media (hover: hover) {
     .pillar:hover .pillar-front { transform: rotateX(50deg); }
     .pillar:hover .pillar-back { transform: rotateX(0deg); z-index: 3; }
   }
 
-  @media (max-width: 1024px), (hover: none) {
-    .pillar { min-height: 0; perspective: none; }
+  .pillar.is-open .pillar-front { transform: rotateX(50deg); }
+  .pillar.is-open .pillar-back { transform: rotateX(0deg); z-index: 3; }
+
+  .pillar { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+  /* The heading is the only thing showing until a tile is opened, so it needs
+     the room a pointer-driven tile does not: at this width the type is
+     smaller and the tile shorter. */
+  @media (max-width: 900px) {
+    .pillar { min-height: 150px; }
     .pillar-front,
-    .pillar-back {
-      position: static;
-      transform: none;
-      backface-visibility: visible;
-      text-align: left;
-      padding: 0;
-      background: none !important;
-    }
-    .pillar-front { padding-top: 1.75rem; }
-    .pillar-back { padding: 0.75rem 0 1.75rem; }
-    .pillar-back p { color: var(--fg-muted); }
-    .pillars { border: none; }
-    .pillar { border-left: none; }
+    .pillar-back { padding: 1.4rem; }
+    .pillar-back p { font-size: 0.9rem; line-height: 1.6; }
   }
 
   @media (max-width: 900px) {
@@ -959,7 +957,7 @@
   </div>
 </footer>
 
-<script src="js/script.js?v=20261002c"></script>
+<script src="js/script.js?v=20261002d"></script>
 <script>
   // Sections rise into view, in the spirit of the reference site's entrance
   // animations. Purely decorative: without JS everything is simply visible.

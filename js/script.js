@@ -8,6 +8,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   setActiveNavLink();
   initNavToggle();
+  initPillars();
   initTabs();
   initHometownMap();
 });
@@ -150,6 +151,40 @@ function initNavToggle() {
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") { setOpen(false); }
+  });
+}
+
+/* The three tiles on the home page turn over to show their text. A pointer
+   does it on hover; a finger has no hover, so a tap marks the tile instead.
+   Only one is open at a time, which keeps the row from turning into a wall of
+   crimson. */
+function initPillars() {
+  var pillars = document.querySelectorAll(".pillar");
+  if (!pillars.length) { return; }
+
+  pillars.forEach(function (tile) {
+    var heading = tile.querySelector(".pillar-front h3");
+    tile.setAttribute("role", "button");
+    tile.setAttribute("tabindex", "0");
+    tile.setAttribute("aria-expanded", "false");
+    if (heading) {
+      tile.setAttribute("aria-label", heading.textContent.trim());
+    }
+
+    function toggle() {
+      var open = !tile.classList.contains("is-open");
+      pillars.forEach(function (other) {
+        other.classList.remove("is-open");
+        other.setAttribute("aria-expanded", "false");
+      });
+      tile.classList.toggle("is-open", open);
+      tile.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    tile.addEventListener("click", toggle);
+    tile.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+    });
   });
 }
 
