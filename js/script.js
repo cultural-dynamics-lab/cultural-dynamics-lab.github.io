@@ -72,6 +72,9 @@ function initNavToggle() {
 
   // Copied after setActiveNavLink() has run, so the current page is marked
   // here too.
+  var onResearch = false;
+  var themeLinks = null;
+
   var list = document.createElement("ul");
   nav.querySelectorAll("a").forEach(function (link) {
     var href = link.getAttribute("href");
@@ -90,20 +93,17 @@ function initNavToggle() {
       var subs = document.createElement("ul");
       subs.className = "nav-sub";
       RESEARCH_THEMES.forEach(function (name) {
-        var slug = themeSlug(name);
         var li = document.createElement("li");
         var a = document.createElement("a");
-        a.href = base + "#" + slug;
+        a.href = base + "#" + themeSlug(name);
         a.textContent = name;
-        if (copy.classList.contains("active") &&
-            window.location.hash.replace(/^#/, "") === slug) {
-          a.classList.add("active");
-        }
         a.addEventListener("click", function () { setOpen(false); });
         li.appendChild(a);
         subs.appendChild(li);
       });
       item.appendChild(subs);
+      onResearch = copy.classList.contains("active");
+      themeLinks = subs.querySelectorAll("a");
     }
 
     list.appendChild(item);
@@ -116,12 +116,30 @@ function initNavToggle() {
   document.body.appendChild(backdrop);
   document.body.appendChild(drawer);
 
+  /* Which theme is showing changes without the page reloading: a tap on a
+     theme here is a jump to a fragment of the page already open. Marking the
+     list once while building it left the highlight on whichever theme the
+     address carried when the page first loaded. */
+  function markTheme() {
+    if (!onResearch || !themeLinks) { return; }
+    var want = window.location.hash.replace(/^#/, "");
+    themeLinks.forEach(function (a, i) {
+      var slug = a.getAttribute("href").split("#")[1];
+      // With no fragment the page shows the first panel, so mark that one.
+      a.classList.toggle("active", want ? slug === want : i === 0);
+    });
+  }
+
   function setOpen(open) {
+    if (open) { markTheme(); }
     drawer.classList.toggle("open", open);
     backdrop.classList.toggle("open", open);
     document.body.classList.toggle("nav-open", open);
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
   }
+
+  window.addEventListener("hashchange", markTheme);
+  markTheme();
 
   toggle.addEventListener("click", function () {
     setOpen(!drawer.classList.contains("open"));
