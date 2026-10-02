@@ -104,10 +104,6 @@ a:hover {
   border-bottom-color: var(--accent);
 }
 
-.nav-toggle {
-  background: var(--bg-raised);
-  border-color: var(--hairline);
-}
 .nav-toggle span {
   background: var(--fg);
 }

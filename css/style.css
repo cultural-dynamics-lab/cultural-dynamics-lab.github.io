@@ -188,21 +188,27 @@ h4 { font-size: 1.1rem; }
   letter-spacing: 0.03em;
 }
 
+/* Three bars and nothing else. The button sat in a filled, outlined box,
+   which read as a white tile stuck on the crimson header. Padding stays so
+   the tap target clears Apple's 44px, even though the bars are smaller. */
 .nav-toggle {
   display: none;
-  border: 1px solid var(--line);
-  background: var(--paper-alt);
-  border-radius: 6px;
-  padding: 0.5rem 0.6rem;
+  border: 0;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-toggle span {
   display: block;
-  width: 22px;
+  width: 24px;
   height: 2px;
   background: var(--ink);
-  margin: 4px 0;
+  margin: 5px auto;
 }
 
 /* the flexible tab-style nav: wraps freely, no fixed widths, grows/shrinks
@@ -1131,6 +1137,10 @@ section + section {
 /* Responsive nav collapse                                                */
 /* ---------------------------------------------------------------------- */
 
+/* Built by the script, so they must stay out of the way at desk width. */
+.nav-backdrop,
+.nav-drawer { display: none; }
+
 @media (max-width: 700px) {
   .nav-toggle {
     display: inline-flex;
@@ -1138,24 +1148,104 @@ section + section {
     justify-content: center;
   }
 
-  .site-nav {
-    display: none;
-    width: 100%;
-    order: 3;
-  }
+  /* The header's own list is for the wide layout only. */
+  .site-nav { display: none; }
 
-  .site-nav.open {
+  /* The menu slides in from the right edge and sits over the page, which stays
+     visible beside it. Dark in both palettes: like the top bar, it reads as
+     chrome rather than as part of the page beneath it. It hangs off <body>,
+     not off the header, which is a containing block for fixed children
+     because of its backdrop-filter. */
+  .nav-drawer {
     display: block;
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(76vw, 330px);
+    z-index: 70;
+    background: #242424;
+    padding: 5rem 1.6rem 2rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 280ms ease, visibility 280ms;
   }
 
-  .site-nav ul {
-    flex-direction: column;
+  .nav-drawer.open {
+    transform: translateX(0);
+    visibility: visible;
   }
 
-  .site-nav a {
-    width: 100%;
-    border-radius: 6px;
+  .nav-drawer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
+
+  .nav-drawer a {
+    display: block;
+    padding: 0.95rem 0;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+
+  .nav-drawer a.active,
+  .nav-drawer a:hover { color: #FFFFFF; }
+
+  /* Catches the tap that lands on the page beside an open drawer. */
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 280ms ease, visibility 280ms;
+  }
+
+  .nav-backdrop.open { opacity: 1; visibility: visible; }
+
+  /* Two strokes crossed, in the drawer's own top-left corner. */
+  .nav-close {
+    position: absolute;
+    top: 1rem;
+    left: 1.1rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-close::before,
+  .nav-close::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 21px;
+    width: 24px;
+    height: 2px;
+    background: #FFFFFF;
+  }
+
+  .nav-close::before { transform: rotate(45deg); }
+  .nav-close::after { transform: rotate(-45deg); }
+
+  /* The page must not scroll under an open drawer. */
+  body.nav-open { overflow: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-drawer,
+  .nav-backdrop { transition: none; }
 }
 
 /* ==========================================================================

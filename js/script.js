@@ -28,15 +28,64 @@ function setActiveNavLink() {
   });
 }
 
+/* On a phone the menu is a panel that slides in from the right, over the page.
+   It is built here and appended to <body> rather than written into 26 files.
+   Body, specifically: the header carries a backdrop-filter, and that makes it
+   the containing block for any fixed-position child, so a panel built inside
+   it would be trapped in the header's own 82 pixels instead of covering the
+   screen. The header keeps its own link list for the wide layout. */
 function initNavToggle() {
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".site-nav");
   if (!toggle || !nav) return;
 
+  var drawer = document.createElement("nav");
+  drawer.className = "nav-drawer";
+  drawer.setAttribute("aria-label", "Primary");
+
+  var close = document.createElement("button");
+  close.type = "button";
+  close.className = "nav-close";
+  close.setAttribute("aria-label", "Close navigation");
+  drawer.appendChild(close);
+
+  // Copied after setActiveNavLink() has run, so the current page is marked
+  // here too.
+  var list = document.createElement("ul");
+  nav.querySelectorAll("a").forEach(function (link) {
+    var item = document.createElement("li");
+    var copy = document.createElement("a");
+    copy.href = link.getAttribute("href");
+    copy.textContent = link.textContent;
+    if (link.classList.contains("active")) { copy.classList.add("active"); }
+    copy.addEventListener("click", function () { setOpen(false); });
+    item.appendChild(copy);
+    list.appendChild(item);
+  });
+  drawer.appendChild(list);
+
+  var backdrop = document.createElement("div");
+  backdrop.className = "nav-backdrop";
+
+  document.body.appendChild(backdrop);
+  document.body.appendChild(drawer);
+
+  function setOpen(open) {
+    drawer.classList.toggle("open", open);
+    backdrop.classList.toggle("open", open);
+    document.body.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
   toggle.addEventListener("click", function () {
-    nav.classList.toggle("open");
-    var expanded = nav.classList.contains("open");
-    toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+    setOpen(!drawer.classList.contains("open"));
+  });
+
+  close.addEventListener("click", function () { setOpen(false); });
+  backdrop.addEventListener("click", function () { setOpen(false); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { setOpen(false); }
   });
 }
 
