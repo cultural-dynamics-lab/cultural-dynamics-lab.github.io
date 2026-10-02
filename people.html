@@ -602,15 +602,20 @@
 <link rel="stylesheet" href="css/type.css">
 <link rel="stylesheet" id="theme-dark" href="css/dark.css">
 <script>
-  /* The globe on the home page sets this. Applied here before first paint so a
-     page never flashes one theme and then repaints to the other. */
-  try {
-    if (localStorage.getItem("cdl-theme") === "crimson") {
+  /* The light palette is the default; the globe on the home page stores a
+     choice. Only an explicit "mono" turns the dark palette on, so a browser
+     that refuses localStorage still lands on the default rather than on the
+     other theme. Applied here before first paint so a page never flashes one
+     theme and then repaints to the other. */
+  (function () {
+    var dark = false;
+    try { dark = localStorage.getItem("cdl-theme") === "mono"; } catch (e) {}
+    if (!dark) {
       document.documentElement.classList.add("theme-crimson");
       var d = document.getElementById("theme-dark");
       if (d) { d.disabled = true; }
     }
-  } catch (e) {}
+  }());
 </script>
 </head>
 <body>
@@ -660,7 +665,6 @@
 
 <div class="page-header">
   <div class="container">
-    <p class="eyebrow">People</p>
     <h1>The Cultural Dynamics Lab team</h1>
   </div>
 </div>

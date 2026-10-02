@@ -1061,10 +1061,11 @@ section + section {
   margin-bottom: 1.25rem;
 }
 
-/* "Harvard faculty profile" and "Personal website" are ordinary words, so
-   without an underline nothing shows they are links -- unlike the email
-   addresses beside them, which announce themselves. */
-.profile-links a {
+/* A link whose text is ordinary words -- "Harvard faculty profile", a person's
+   name in a sentence -- shows nothing without an underline. The email
+   addresses in the sidebar are left alone: they announce themselves. */
+.profile-links a,
+.contact-block p a {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;

@@ -59,15 +59,20 @@
 <link rel="stylesheet" href="css/type.css">
 <link rel="stylesheet" id="theme-dark" href="css/dark.css">
 <script>
-  /* The globe on the home page sets this. Applied here before first paint so a
-     page never flashes one theme and then repaints to the other. */
-  try {
-    if (localStorage.getItem("cdl-theme") === "crimson") {
+  /* The light palette is the default; the globe on the home page stores a
+     choice. Only an explicit "mono" turns the dark palette on, so a browser
+     that refuses localStorage still lands on the default rather than on the
+     other theme. Applied here before first paint so a page never flashes one
+     theme and then repaints to the other. */
+  (function () {
+    var dark = false;
+    try { dark = localStorage.getItem("cdl-theme") === "mono"; } catch (e) {}
+    if (!dark) {
       document.documentElement.classList.add("theme-crimson");
       var d = document.getElementById("theme-dark");
       if (d) { d.disabled = true; }
     }
-  } catch (e) {}
+  }());
 </script>
 </head>
 <body>
@@ -117,10 +122,7 @@
 
 <div class="page-header">
   <div class="container">
-    <p class="eyebrow">Contact</p>
     <h1>Join the lab</h1>
-    <p>Josh is always eager to mentor students who are interested in how cultural and historical
-    factors influence the human mind.</p>
   </div>
 </div>
 
@@ -180,15 +182,12 @@
           January 15 of their junior year. Places are limited. Most years bring more requests than
           the lab can advise, so we are not able to say yes to everyone.
         </p>
-        <p>
-          Preference goes to students already working in the lab as research assistants. If you
-          have not worked with us before, it is worth arranging a conversation with Joshua Conrad
-          Jackson well ahead of the deadline; that meeting carries real weight in the decision.
-        </p>
         <p style="margin-bottom:0;">
-          There is no formal application and nothing to prepare in advance. Email
-          <a href="mailto:jcjackson@fas.harvard.edu">Joshua</a> directly and describe what you
-          would like to study.
+          You can email <a href="mailto:jcjackson@fas.harvard.edu">Josh</a> directly to indicate
+          what you would like to study, and you are
+          welcome to arrange a meeting with him to discuss the possibility of conducting your
+          thesis in the lab. Preference will be given to students already working in the lab as
+          research assistants.
         </p>
       </div>
     </div>

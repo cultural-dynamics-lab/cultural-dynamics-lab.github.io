@@ -685,15 +685,20 @@
   }
 </style>
 <script>
-  /* The globe on the home page sets this. Applied here before first paint so a
-     page never flashes one theme and then repaints to the other. */
-  try {
-    if (localStorage.getItem("cdl-theme") === "crimson") {
+  /* The light palette is the default; the globe on the home page stores a
+     choice. Only an explicit "mono" turns the dark palette on, so a browser
+     that refuses localStorage still lands on the default rather than on the
+     other theme. Applied here before first paint so a page never flashes one
+     theme and then repaints to the other. */
+  (function () {
+    var dark = false;
+    try { dark = localStorage.getItem("cdl-theme") === "mono"; } catch (e) {}
+    if (!dark) {
       document.documentElement.classList.add("theme-crimson");
       var d = document.getElementById("theme-dark");
       if (d) { d.disabled = true; }
     }
-  } catch (e) {}
+  }());
 </script>
 </head>
 <body>
@@ -838,8 +843,8 @@
             <div class="news-date">July 2026</div>
             <div>
               <strong>The lab arrives at Harvard.</strong>
-              The Cultural Dynamics Lab begins its work in the Department of Psychology at Harvard
-              University, led by Assistant Professor Joshua Conrad Jackson.
+              The Cultural Dynamics Lab moves from Chicago Booth to the Department of Psychology
+              at Harvard University.
             </div>
           </div>
           <div class="news-item">
@@ -855,7 +860,7 @@
             <div class="news-date">2025</div>
             <div>
               <strong><a href="https://www.sciencedirect.com/journal/current-research-in-ecological-and-social-psychology/special-issue/10PBMKHQMV0" target="_blank" rel="noopener noreferrer">Historical Psychology Special Issue</a></strong>
-              Edited by Joshua Conrad Jackson and Mohammad Atari, the special issue explores how
+              Edited by Josh and Mohammad Atari, the special issue explores how
               historical events shape the minds of today.
             </div>
           </div>

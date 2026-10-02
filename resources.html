@@ -22,9 +22,12 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* Two columns on a full-width container: the groups hold one or two items
+   each, so a three-column track always left a hole at the end of a row. At
+   460px the container (1072px of usable width) fits exactly two. */
 .res-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
   gap: 1.25rem;
 }
 
@@ -34,7 +37,7 @@
   gap: 0.5rem;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 1.25rem;
+  padding: 1.5rem 1.75rem;
   background: var(--paper-alt);
 }
 
@@ -90,15 +93,20 @@
 <link rel="stylesheet" href="css/type.css">
 <link rel="stylesheet" id="theme-dark" href="css/dark.css">
 <script>
-  /* The globe on the home page sets this. Applied here before first paint so a
-     page never flashes one theme and then repaints to the other. */
-  try {
-    if (localStorage.getItem("cdl-theme") === "crimson") {
+  /* The light palette is the default; the globe on the home page stores a
+     choice. Only an explicit "mono" turns the dark palette on, so a browser
+     that refuses localStorage still lands on the default rather than on the
+     other theme. Applied here before first paint so a page never flashes one
+     theme and then repaints to the other. */
+  (function () {
+    var dark = false;
+    try { dark = localStorage.getItem("cdl-theme") === "mono"; } catch (e) {}
+    if (!dark) {
       document.documentElement.classList.add("theme-crimson");
       var d = document.getElementById("theme-dark");
       if (d) { d.disabled = true; }
     }
-  } catch (e) {}
+  }());
 </script>
 </head>
 <body>
@@ -148,10 +156,7 @@
 
 <div class="page-header">
   <div class="container">
-    <p class="eyebrow">Resources</p>
     <h1>Resources</h1>
-    <p>Datasets, code, and materials from the lab, free to use in your own work.
-    If something here is useful, we would be glad to hear about it.</p>
   </div>
 </div>
 
@@ -211,46 +216,40 @@
      -------------------------------------------------------------------- */
 
   var RESOURCES = [
+    /* The lab manual leads the page: it is the one thing a prospective member
+       should read, and the group order follows the order entries appear here. */
+    { group: "Guides for students",
+      title: "Lab manual",
+      description: "The official lab manual, with detailed advice on building a research identity, \
+managing workload, understanding project lifecycles, and writing different papers.",
+      href: "https://docs.google.com/document/d/1VuUk4ebhX4XfdLR9YQY9PCP4U_whecnosCu8g5RNrWE/edit?usp=sharing" },
+
+    /* Not our document: it belongs to the Carolina Affective Science Lab at
+       UNC, where Josh worked on it as a PhD student. The credit in the
+       description goes wherever this entry goes. */
+    { group: "Guides for students",
+      title: "Getting research experience before graduate school",
+      description: "This guide comes from the Carolina Affective Science Lab at UNC, where Josh \
+helped create it as a PhD student. It covers finding research positions, funding them, and \
+applying to graduate school; some sections point to resources specific to UNC.",
+      href: "https://docs.google.com/document/d/1TWQSx0jOLVT6lrB9nztZLNUvZOFqH4xBQO3Rf5rPDh4/edit?usp=sharing" },
+
     { group: "Workshops",
       title: "NLP workshop (2024)",
       description: "Slides from Josh's most recent workshop on natural language processing for \
-cultural and psychological research. Start here if you only read one of the two.",
-      href: "https://drive.google.com/file/d/1OA0fNy3YSkMf0meBPOgC35Pczx5YMR2p/view?usp=sharing",
-      meta: "PDF slides \u00b7 2024" },
+cultural and psychological research.",
+      href: "https://drive.google.com/file/d/1OA0fNy3YSkMf0meBPOgC35Pczx5YMR2p/view?usp=sharing" },
 
     { group: "Workshops",
       title: "NLP workshop (2022)",
-      description: "The earlier version of the same workshop. Some of the tooling has moved on, \
-but the worked examples and the framing of the method still hold up.",
-      href: "https://docs.google.com/presentation/d/1Zhkyud7rF6CgdQYnJsUyxVVq7n2Rm4Kl/edit?usp=sharing&ouid=111716392815772707246&rtpof=true&sd=true",
-      meta: "Google Slides \u00b7 2022" },
+      description: "The earlier version of the same workshop.",
+      href: "https://docs.google.com/presentation/d/1Zhkyud7rF6CgdQYnJsUyxVVq7n2Rm4Kl/edit?usp=sharing&ouid=111716392815772707246&rtpof=true&sd=true" },
 
     { group: "Datasets",
       title: "List of secondary datasets",
       description: "A running index of large secondary datasets useful for cross-cultural and \
-historical work, with notes on what each one covers and how to get access.",
-      href: "https://docs.google.com/spreadsheets/d/1ZdbW0Q4t-UxQ1xALTgVyaRunGbLuOZbU09_XUuJ0Cjc/edit?usp=sharing",
-      meta: "Google Sheet \u00b7 updated regularly" },
-
-    { group: "Guides for students",
-      title: "Lab manual",
-      description: "How the lab works day to day: expectations, authorship, meetings, data \
-practices, and mentoring. Worth reading before you apply.",
-      href: "https://docs.google.com/document/d/1VuUk4ebhX4XfdLR9YQY9PCP4U_whecnosCu8g5RNrWE/edit?usp=sharing",
-      meta: "Google Doc" },
-
-    /* Not our document. It was written by the Carolina Affective Science
-       Laboratory at UNC-Chapel Hill, so the credit and the link to them stay
-       attached to it wherever it is listed. */
-    { group: "Guides for students",
-      title: "Getting research experience before graduate school",
-      description: "A guide for undergraduates and students from underrepresented backgrounds who \
-want a research career: where to find positions, how to fund them, and how to approach graduate \
-school applications. Written by the Carolina Affective Science Laboratory at UNC-Chapel Hill and \
-shared here with credit to them; some sections point to resources specific to UNC.",
-      href: "https://docs.google.com/document/d/1TWQSx0jOLVT6lrB9nztZLNUvZOFqH4xBQO3Rf5rPDh4/edit?usp=sharing",
-      links: [{ label: "Carolina Affective Science Laboratory", href: "https://carolinaaffectivescience.com/" }],
-      meta: "Google Doc \u00b7 \u00a9 Carolina Affective Science Laboratory, UNC-Chapel Hill" },
+historical work.",
+      href: "https://docs.google.com/spreadsheets/d/1ZdbW0Q4t-UxQ1xALTgVyaRunGbLuOZbU09_XUuJ0Cjc/edit?usp=sharing" },
   ];
 
   /* ------------------------------------------------------------------ */
