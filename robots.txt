@@ -1,0 +1,6 @@
+# Everything here is meant to be read. The folders the site does not serve
+# are not in the repository at all, so there is nothing to disallow.
+User-agent: *
+Allow: /
+
+Sitemap: https://cultural-dynamics-lab.github.io/sitemap.xml
